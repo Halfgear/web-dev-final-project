@@ -1,0 +1,53 @@
+.collapse .card-body {
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 5px;
+    margin-bottom: 0px;
+}
+
+
+.collapse .card-body ul li:last-child {
+    border-bottom: none;
+}
+
+.collapse .card-body ul li a {
+    text-decoration: none;
+    color: red;
+    font-weight: 500;
+}
+
+.course-options-list {
+    list-style-type: none;
+    /* Removes the default bullet points */
+    padding: 0;
+    /* Removes default padding */
+    margin: 0;
+    /* Adjusts margin as needed */
+}
+
+.course-options-list li {
+    background-color: lightgrey;
+    /* Sets the background color of each box */
+    margin: 8px 0;
+    /* Adds margin above and below each box */
+    padding: 10px;
+    /* Adds padding inside each box */
+    border-radius: 2px;
+    /* Optional: Adds rounded corners to each box */
+}
+
+.course-options-list li a {
+    color: black;
+    /* Sets the link color */
+    text-decoration: none;
+    /* Removes underline from links */
+    font-size: 16px;
+    /* Adjusts font size */
+    display: block;
+    /* Makes the link fill the entire box for a larger click area */
+}
+
+.course-options-list li a:hover {
+    text-decoration: underline;
+    /* Adds underline on hover for better user experience */
+}

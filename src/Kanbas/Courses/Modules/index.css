@@ -1,0 +1,68 @@
+.wd-modules,
+.wd-modules * {
+    border-radius: 0%;
+    border: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+.wd-modules {
+    margin: 5px;
+}
+
+.module-heading {
+    color: black;
+    font-weight: bold;
+    font-size: 25px;
+}
+
+.wd-modules>li {
+    background-color: lightgray;
+    border: 1px solid gray !important;
+    border-left: none !important;
+}
+
+.wd-modules>li>div {
+    padding: 6px;
+    border-left: 1px solid gray !important;
+}
+
+.wd-modules>li>ul>li {
+    padding: 5px;
+    border-top: 1px solid gray !important;
+    border-left: 2px solid green;
+}
+
+.wd-modules>li {
+    margin-bottom: 20px;
+}
+
+.wd-modules button {
+    padding: 8px 16px;
+    margin-right: 5px;
+    border: 1px solid #bbb;
+    background-color: #e7e7e7;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+    border-radius: 4px;
+}
+
+.wd-modules button:hover {
+    background-color: #eaeaea;
+}
+
+.list-group-item textarea {
+    margin-top: 8px;
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.list-group-item p {
+    margin: 0;
+   
+    padding: 6px;
+
+}

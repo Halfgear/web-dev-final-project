@@ -1,0 +1,135 @@
+<head>
+    <link rel="stylesheet" href="/Kanbas/styles.css" />
+    <link rel="stylesheet" href="/Kanbas/Courses/Navigation/index.css" />
+</head>
+<table>
+    <tbody>
+        <tr>
+            <td valign="top">
+                <head>
+                    <link rel="stylesheet"
+                        href="/Kanbas/Navigation/styles.css" />
+                    <link rel="stylesheet"
+                        href="/Kanbas/Navigation/index.css" />
+                    <link rel="stylesheet"
+                        href="/libs/font-awesome/css/font-awesome.min.css" />
+                </head>
+                <body>
+                    <ul class="wd-kanbas-navigation">
+                        <li><img src="/images/northeastern.png"
+                                class="wd-northeastern-center"></a></li>
+                    <li class="wd-profile">
+                        <a href="/Kanbas/Account/Profile/screen.html"><i
+                                class="fa fa-user-circle"></i>Account</a>
+                    </li>
+                    <li>
+                        <a href="/Kanbas/Dashboard/screen.html">
+                            <i class="fa fa-tachometer"></i> Dashboard</a>
+                    </li>
+                    <li  class="wd-active"><a href="/Kanbas/Courses/Home/screen.html"> <i
+                                class="fa fa-book"></i>Courses</a> </li>
+                    <li><a href="#"><i class="fa fa-calendar"></i>
+                            Calendar</a></li>
+                    <li><a href="#"><i class="fa fa-envelope"></i>
+                            Inbox</a></li>
+                    <li><a href="#"><i class="fa fa-clock-o"></i>
+                            History</a></li>
+                    <li><a href="#"><i class="fa fa-desktop"></i>
+                            Studio</a></li>
+                    <li><a href="#"><i class="fa fa-share-square-o"></i>
+                            Commons</a></li>
+                    <li class="wd-help"><a href="#"><i
+                                class="fa fa-question-circle fa-lg"></i>
+                            Help</a></li>
+                </ul>
+            </body>
+        </td>
+        <td valign="top">
+                <ul class="wd-navigation">
+                    <li>
+                        <a href="/Kanbas/Courses/Home/screen.html">Home</a></li>
+                    <li>
+                        <a
+                            href="/Kanbas/Courses/Modules/screen.html">Modules</a>
+                    </li>
+                    <li><a href="http://piazza.com">Piazza</a></li>
+                    <li><a href="#">Zoom</a></li>
+                    <li>
+                        <a
+                            href="/Kanbas/Courses/Assignments/screen.html">Assignments</a>
+                    </li>
+                    <li><a href="#">Quizzes</a></li>
+                    <li class="wd-active"><a
+                            href="/Kanbas/Courses/Grades/screen.html">Grades</a></li>
+                    <li><a href="#">People</a></li>
+                </ul>
+            </td>
+            <td valign="top"><label for="gradebook"></label>
+                <select id="gradebook">
+                    <!-- <option value="WEEK0">Week 0</option>
+                <option value="WEEK1">Week 1</option> -->
+                    <option value="Gradebook" selected>Gradebook</option>
+                </select>
+                <button type="button">Import</button>
+                <label for="export"></label>
+                <select id="export">
+                    <option value="Export" selected>Export</option>
+                </select>
+                <button type="button">Configure</button>
+                <br />
+                <h2>Student Names</h2>
+                <input type="text"
+                    title="student-name"
+                    placeholder="Search Students" />
+                <h2>Assignment Names</h2>
+                <input type="text"
+                    title="assignment-name"
+                    placeholder="Search Assignments" />
+                <br /><br />
+                <button type="button">Apply Fillters</button>
+                <br /><br />
+                <table border="1" width="100%">
+                    <thead>
+                        <tr>
+                            <th>Student Name</th>
+                            <th>A1 SETUP Out of 100</th>
+                            <th>A2 HTML Out of 100</th>
+                            <th>A3 CSS Out of 100</th>
+                            <th>A4 BOOTSTRAP Out of 100</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Alice Wonderland</td>
+                            <td><input type="text" value="98"></td>
+                            <td>87</td>
+                            <td><input type="text" value="87"></td>
+                            <td>90</td>
+                        </tr>
+                        <tr>
+                            <td>Princes Leia</td>
+                            <td>98</td>
+                            <td>80</td>
+
+                            <td><input type="text" value="87"></td>
+                        </tr>
+                        <tr>
+                            <td>Luke Skywalker</td>
+                            <td>99</td>
+                            <td>88</td>
+                            <td><input type="text" value="98"></td>
+                            <td>87</td>
+                        </tr>
+                        <tr>
+                            <td>Boba Fet</td>
+                            <td>85</td>
+                            <td>88</td>
+                            <td>97</td>
+                            <td>87</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>

@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx"
+  },
+  "include": [
+    "src"
+, "kanbas-node-server-app/Kanbas/Database/index.js", "kanbas-node-server-app/Kanbas/Database/assignments.js", "kanbas-node-server-app/Kanbas/Database/courses.js", "kanbas-node-server-app/Kanbas/Database/enrollments.js", "kanbas-node-server-app/Kanbas/Database/grades.js", "kanbas-node-server-app/Kanbas/Database/modules.js", "kanbas-node-server-app/Kanbas/Database/users.js", "kanbas-node-server-app/Kanbas/courses/routes.js"  ]
+}

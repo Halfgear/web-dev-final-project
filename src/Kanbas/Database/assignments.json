@@ -1,0 +1,122 @@
+[
+    {
+        "_id": "CS1234",
+        "title": "A1 - ENV + HTML",
+        "course": "CS1234"
+    },
+    {
+        "_id": "CS1234",
+        "title": "A2 - CSS + BOOTSTRAP",
+        "course": "CS1234"
+    },
+    {
+        "_id": "CS1234",
+        "title": "A3 - JS + REACT",
+        "course": "CS1234"
+    },
+    {
+        "_id": "CS1234",
+        "title": "A4 - STATE + REDUX",
+        "course": "CS1234"
+    },
+    {
+        "_id": "CS1234",
+        "title": "A5 - NODE + SESSION",
+        "course": "CS1234"
+    },
+    {
+        "_id": "CS1234",
+        "title": "A6 - MONGO",
+        "course": "CS1234"
+    },
+    {
+        "_id": "CS3520",
+        "title": "A1 - ENV + HTML",
+        "course": "CS3520"
+    },
+    {
+        "_id": "CS3520",
+        "title": "A2 - CSS + BOOTSTRAP",
+        "course": "CS3520"
+    },
+    {
+        "_id": "CS3520",
+        "title": "A3 - JS + REACT",
+        "course": "CS3520"
+    },
+    {
+        "_id": "CS3520",
+        "title": "A4 - STATE + REDUX",
+        "course": "CS3520"
+    },
+    {
+        "_id": "CS123CS35204",
+        "title": "A5 - NODE + SESSION",
+        "course": "CS3520"
+    },
+    {
+        "_id": "CS3520",
+        "title": "Programming in C++",
+        "course": "CS3520"
+    },
+    {
+        "_id": "CS4500",
+        "title": "A1 - ENV + HTML",
+        "course": "CS4500"
+    },
+    {
+        "_id": "CS4500",
+        "title": "A2 - CSS + BOOTSTRAP",
+        "course": "CS4500"
+    },
+    {
+        "_id": "CS4500",
+        "title": "A3 - JS + REACT",
+        "course": "CS4500"
+    },
+    {
+        "_id": "CS4500",
+        "title": "A4 - STATE + REDUX",
+        "course": "CS4500"
+    },
+    {
+        "_id": "CS4500",
+        "title": "A5 - NODE + SESSION",
+        "course": "CS4500"
+    },
+    {
+        "_id": "CS4500",
+        "title": "Programming in C++",
+        "course": "CS4500"
+    },
+    {
+        "_id": "CS4500",
+        "title": "Web Development",
+        "course": "CS4500"
+    },
+    {
+        "_id": "IS4300",
+        "title": "Human Computer Interaction",
+        "course": "IS4300"
+    },
+    {
+        "_id": "IS4800",
+        "title": "Empirical Research Methods",
+        "course": "IS4800"
+    },
+    {
+        "_id": "CS3500",
+        "title": "Object Oriented Design",
+        "course": "CS3500"
+    },
+    {
+        "_id": "CS3000",
+        "title": "Algorithm and Data structure",
+        "course": "CS3000"
+    },
+    {
+        "_id": "CS1000",
+        "title": "Introduction to Computer Science",
+        "course": "CS1000"
+    }
+]

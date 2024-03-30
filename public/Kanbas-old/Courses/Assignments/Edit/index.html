@@ -1,0 +1,77 @@
+<select id="speed-grader">
+    <option value="speed-grader" selected>Speed Grader</option>
+    <option value="speed-grader">Speed Grader</option>
+</select>
+<hr>
+<h2>
+    Assignment Name
+</h2>
+<form id="assignment-form">
+    <input id="text-fields-assignment-name"
+        placeholder="A1 - ENV + HTML" /><br /><br />
+
+    <label for="text-are-assignment-description">Assignment
+        Description</label><br />
+    <textarea id="text-are-assignment-description" cols="20"
+        rows="2">This is the assignment description.</textarea><br /><br />
+
+    <label for="text-fields-points">Points</label><br />
+    <input id="text-fields-points" placeholder="100" /><br /><br />
+
+    <label for="assignment-group">Assignment Group</label><br />
+    <select id="assignment-group">
+        <option value="assignment" selected>ASSIGNMENTS</option>
+    </select><br /><br />
+
+    <label for="display-grade">Display Grade as</label><br />
+    <select id="display-grade">
+        <option value="percentage" selected>Percentage</option>
+        <option value="letter">Letter</option>
+    </select><br /><br />
+
+    <label for="submission-type">Submission Type</label><br />
+    <select id="submission-type">
+        <option value="online" selected>Online</option>
+        <option value="offline">Offline</option>
+    </select><br /><br />
+
+    <label>Online Entry Options</label><br />
+    <input type="checkbox" value="TEXT-ENTRY" name="online-entry"
+        id="chkbox-text-entry" />
+    <label for="chkbox-text-entry">Text Entry</label> <br />
+
+    <input type="checkbox" value="WEBSITE-URL" name="online-entry"
+        id="chkbox-website-url" />
+    <label for="chkbox-website-url">Website URL</label> <br />
+
+    <input type="checkbox" value="MEDIA-RECORDINGS" name="online-entry"
+        id="chkbox-media-recordings" />
+    <label for="chkbox-media-recordings">Media Recordings</label> <br />
+
+    <input type="checkbox" value="STUDENT-ANNOTATION" name="online-entry"
+        id="chkbox-student-annotation" />
+    <label for="chkbox-student-annotation">Student Annotation</label> <br />
+
+    <input type="checkbox" value="FILE-UPLOADS" name="online-entry"
+        id="chkbox-file-uploads" />
+    <label for="chkbox-file-uploads">File Uploads</label> <br /><br />
+
+    <label for="everyone">Assign to</label><br />
+    <input id="everyone" value="everyone" /><br /><br />
+
+    <label for="due-date">Due</label><br />
+    <input type="date" id="due-date" value="2024-01-01" /><br /><br />
+
+    <label for="available-date">Available</label><br />
+    <input type="date" id="available-date" value="2024-01-01" /><br /><br />
+
+    <label for="until-date">Until</label><br />
+    <input type="date" id="until-date" value="2024-01-01" /><br /><br />
+
+    <a href="/Kanbas/Courses/Assignments/screen.html" style="text-decoration: none;">
+        <button type="button">Cancel</button>
+    </a>
+    <a href="/Kanbas/Courses/Assignments/screen.html" style="text-decoration: none;">
+        <button type="button">Save</button>
+    </a>
+</form>

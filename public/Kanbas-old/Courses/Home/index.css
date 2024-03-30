@@ -1,0 +1,17 @@
+.collapse .card-body {
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 5px;
+    margin-bottom: 0px;
+}
+
+
+.collapse .card-body ul li:last-child {
+    border-bottom: none;
+}
+
+.collapse .card-body ul li a {
+    text-decoration: none;
+    color: red;
+    font-weight: 500;
+}

@@ -1,0 +1,73 @@
+<!-- Updated the label "for" attributes to match the corresponding input IDs -->
+<label for="gradebook">Gradebook:</label>
+<select id="gradebook">
+    <!-- Removed the commented-out options for cleanliness, but you can add them back if needed -->
+    <option value="Gradebook" selected>Gradebook</option>
+</select>
+<button type="button">Import</button>
+
+<label for="export">Export:</label>
+<select id="export">
+    <option value="Export" selected>Export</option>
+</select>
+<button type="button">Configure</button>
+
+<br />
+
+<h2>Student Names</h2>
+<!-- Added an ID to the input field to match the label "for" attribute -->
+<input type="text" id="student-name" title="student-name"
+    placeholder="Search Students">
+
+<h2>Assignment Names</h2>
+<!-- Added an ID to the input field to match the label "for" attribute -->
+<input type="text" id="assignment-name" title="assignment-name"
+    placeholder="Search Assignments">
+
+<br /><br />
+
+<button type="button">Apply Filters</button>
+<!-- Corrected the spelling of "Filters" -->
+<br /><br />
+
+<table border="1" width="100%">
+    <thead>
+        <tr>
+            <th>Student Name</th>
+            <th>A1 SETUP Out of 100</th>
+            <th>A2 HTML Out of 100</th>
+            <th>A3 CSS Out of 100</th>
+            <th>A4 BOOTSTRAP Out of 100</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Alice Wonderland</td>
+            <td><input type="number" value="98" min="0" max="100"></td>
+            <!-- Changed to type="number" for numeric input -->
+            <td>87</td>
+            <td><input type="number" value="87" min="0" max="100"></td>
+            <td>90</td>
+        </tr>
+        <tr>
+            <td>Princes Leia</td>
+            <td>98</td>
+            <td>80</td>
+            <td><input type="number" value="87" min="0" max="100"></td>
+        </tr>
+        <tr>
+            <td>Luke Skywalker</td>
+            <td>99</td>
+            <td>88</td>
+            <td><input type="number" value="98" min="0" max="100"></td>
+            <td>87</td>
+        </tr>
+        <tr>
+            <td>Boba Fet</td>
+            <td>85</td>
+            <td>88</td>
+            <td>97</td>
+            <td>87</td>
+        </tr>
+    </tbody>
+</table>

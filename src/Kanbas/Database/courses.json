@@ -1,0 +1,66 @@
+[
+    {
+        "_id": "CS1234",
+        "name": "ReactJS",
+        "number": "CS1234",
+        "startDate": "",
+        "endDate": "",
+        "image": "reactjs.png"
+    },
+    {
+        "_id": "CS3520",
+        "name": "Programming in C++",
+        "number": "CS3520",
+        "startDate": "",
+        "endDate": "",
+        "image": "cplusplus.png"
+    },
+    {
+        "_id": "CS4500",
+        "name": "Web Development",
+        "number": "CS4500",
+        "startDate": "",
+        "endDate": "",
+        "image": "webdev.png"
+    },
+    {
+        "_id": "IS4300",
+        "name": "Human Computer Interaction",
+        "number": "IS4300",
+        "startDate": "",
+        "endDate": "",
+        "image": "HCI.jpg"
+    },
+    {
+        "_id": "IS4800",
+        "name": "Empirical Research Methods",
+        "number": "IS4800",
+        "startDate": "",
+        "endDate": "",
+        "image": "research.jpg"
+    },
+    {
+        "_id": "CS3500",
+        "name": "Object Oriented Design",
+        "number": "CS3500",
+        "startDate": "",
+        "endDate": "",
+        "image": "ood.png"
+    },
+    {
+        "_id": "CS3000",
+        "name": "Algorithms",
+        "number": "CS3000",
+        "startDate": "",
+        "endDate": "",
+        "image": "algorithm.png"
+    },
+    {
+        "_id": "CS1000",
+        "name": "Introduction to Computer Science",
+        "number": "CS1000",
+        "startDate": "",
+        "endDate": "",
+        "image": "computer.jpg"
+    }
+]
