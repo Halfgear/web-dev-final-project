@@ -1,0 +1,45 @@
+[
+    {
+        "_id": "1354",
+        "course": "CS1234",
+        "name": "Quiz 1",
+        "startDate": "Jan 16th",
+        "endDate": "Oct 18th",
+        "totalPoints": 10,
+        "questions": [
+            {
+                "_id": "244",
+                "question_type": 1,
+                "points": 1,
+                "description": "what is 2 + 2?",
+                "answers": [1, 3, 5, 4],
+                "correct": [4]
+            },
+            {
+                "_id": "243",
+                "question_type": 2,
+                "points": 3,
+                "description": "Are bananas fruit?",
+                "answers": [],
+                "correct": ["true"]
+            },
+            {
+                "_id": "243",
+                "question_type": 3,
+                "points": 2,
+                "description": "an example of a fruit is a ____",
+                "answers": [],
+                "correct": ["apple", "banana", "strawberry"]
+            },
+            {
+                "_id": "242",
+                "question_type": 3,
+                "points": 4,
+                "description": "an example of a vegetable is a ____",
+                "answers": [],
+                "correct": ["carrot", "brocoli"]
+            }
+        ]
+    }
+
+]

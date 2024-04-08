@@ -8,6 +8,7 @@ import store from "./store";
 import { Provider } from "react-redux";
 import axios from "axios";
 import Account from "./Account";
+import Quiz from "./Courses/Quizes";
 
 function Kanbas() {
   const [courses, setCourses] = useState<any[]>([]);
@@ -71,6 +72,7 @@ function Kanbas() {
             } />
             <Route path="Courses/*" element={<h1>Courses</h1>} />
             <Route path="Courses/:courseId/*" element={<Courses />} />
+            <Route path="Quiz/:courseId/:quizId/*" element={<Quiz />} />
           </Routes>
 
         </div>
