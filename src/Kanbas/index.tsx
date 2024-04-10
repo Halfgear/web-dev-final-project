@@ -72,7 +72,6 @@ function Kanbas() {
             } />
             <Route path="Courses/*" element={<h1>Courses</h1>} />
             <Route path="Courses/:courseId/*" element={<Courses />} />
-            <Route path="Quiz/:courseId/:quizId/*" element={<Quiz />} />
           </Routes>
 
         </div>

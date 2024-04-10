@@ -5,14 +5,12 @@ import { quiz } from "../../Database";
 import "./index.css";
 
 function Quiz() {
-
     const { quizId } = useParams();
     const { courseId } = useParams();
-    const cur_quiz = quiz.filter(
-        (x) => x._id === quizId);
-
+    const cur_quiz = quiz.filter((x) => x._id === quizId);
     return (
         <div className="list-group wd-modules quiz">
+            cur_quiz: {JSON.stringify(quiz)}
             {cur_quiz.map((x) => (
                 <div>
                     <ul className="list-group">
@@ -45,7 +43,6 @@ function Quiz() {
                                                         <div>
                                                             <input type="radio" value="true" name="check-answer" id={q._id} />
                                                             <label htmlFor={q._id}>True</label> <br />
-
                                                             <input type="radio" value="false" name="check-answer" id={q._id} />
                                                             <label htmlFor={q._id}>False</label> <br />
                                                         </div>
