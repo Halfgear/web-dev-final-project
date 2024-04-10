@@ -1,20 +1,29 @@
 import { Navigate, Route, Routes, useParams, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { quiz } from "../../Database";
+
 import "./index.css";
 
 function Quiz() {
-    const { quizId } = useParams();
-    const { courseId } = useParams();
-    const cur_quiz = quiz.filter((x) => x._id === quizId);
+    const API_BASE = process.env.REACT_APP_API_BASE;
+    const QUIZ_API = `${API_BASE}/api/quizzes`;
+    const { courseId, quizId } = useParams();
+    const [quiz, setQuiz] = useState<any[]>([]);
+
+    //need to add courseID to parameter later.
+    const getQuizzesByCourseId = async () => {
+        const response = await axios.get(`${QUIZ_API}`);
+        console.log(response.data);
+        setQuiz(response.data.filter((quiz: any) => quiz._id === quizId));
+    };
+
+    useEffect(() => { getQuizzesByCourseId(); }, [courseId]);
     return (
         <div className="list-group wd-modules quiz">
-            cur_quiz: {JSON.stringify(quiz)}
-            {cur_quiz.map((x) => (
+            {quiz.map((x) => (
                 <div>
                     <ul className="list-group">
-                        {x.questions.map((q) => (
+                        {x.questions.map((q: any) => (
                             <li className="list-group-item">
                                 <ul className="list-group question">
                                     <li className="question-header">
@@ -32,7 +41,7 @@ function Quiz() {
                                         {(() => {
                                             switch (q.question_type) {
                                                 case 1:
-                                                    return q.answers.map((a) => (
+                                                    return q.answers.map((a: any) => (
                                                         <div>
                                                             <input type="radio" value={a} name="radio-answer" id={q._id} />
                                                             <label htmlFor={q._id}>{a}</label><br />
