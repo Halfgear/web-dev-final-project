@@ -1,6 +1,6 @@
 import axios from 'axios';
 const API_BASE = process.env.REACT_APP_API_BASE;
-const QUIZ_API = `${API_BASE}/api/quizzes`;
+const QUIZ_API = `${API_BASE}/api`;
 axios.defaults.withCredentials = true;
 
 export const findCourseQuizzes = async (courseId: string) => {
@@ -15,7 +15,6 @@ export const deleteQuiz = async (quizId: any) => {
   const response = await axios.delete(`${QUIZ_API}/${quizId}`);
   return response.data;
 };
-
 export const updateQuiz = async (quiz: any) => {
   const response = await axios.put(`${QUIZ_API}/${quiz._id}`, quiz);
   return response.data;
