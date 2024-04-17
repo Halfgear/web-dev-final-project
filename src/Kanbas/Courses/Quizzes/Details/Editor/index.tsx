@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import QuizNav from './Nav';
 
 interface QuizEditorProps {
     // Add any necessary props here
@@ -28,13 +30,16 @@ const QuizEditor: React.FC<QuizEditorProps> = () => {
         setQuestions(updatedQuestions);
     };
 
+    const { pathname } = useLocation();
+
     return (
         <div>
+            <QuizNav />
             <h1>Quiz Editor</h1>
             <label htmlFor="quizTitle">Quiz Title:</label>
             <input type="text" id="quizTitle" value={quizTitle} onChange={handleQuizTitleChange} />
 
-            <h2>Questions:</h2>
+            <h2>Quiz Info:</h2>
             {questions.map((question, index) => (
                 <div key={index}>
                     <input type="text" value={question} onChange={(e) => handleQuestionChange(index, e)} />

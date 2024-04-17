@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { findCourseQuizzes } from './client';
+import { Link } from 'react-router-dom';
 interface Question {
     _id: string;
     question_type: number;
@@ -67,7 +68,10 @@ function QuizList() {
             <h1>Quiz List</h1>
             {quizzes.map((quiz, index) => (
                 <div key={index}>
-                    <h2>{quiz.title} ({quiz.quizType})</h2>
+                    <h2>
+                        <Link to={`${quiz._id}`} className="btn btn-primary">{quiz._id}</Link>
+                        {quiz.title} ({quiz.quizType})
+                    </h2>
                     <p>{quiz.description}</p>
                     <ul>
                         <li>Points: {quiz.points}</li>
