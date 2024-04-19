@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { findCourseQuizzes } from './client';
 import { Link } from 'react-router-dom';
+import './index.css';
 interface Question {
     _id: string;
     question_type: number;
@@ -34,9 +35,18 @@ interface Quiz {
     questions: Question[];
 }
 
-interface Params {
-    courseId: string;
-}
+function formatDate(dateString: string) {
+    const date = new Date(dateString);
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const month = months[date.getMonth()];
+    const day = date.getDate();
+    const hour = date.getHours();
+    const minute = date.getMinutes().toString().padStart(2, '0'); // Ensures two digits
+    const ampm = hour >= 12 ? 'PM' : 'AM';
+    const formattedHour = hour % 12 || 12; // Converts 24h to 12h format and handles midnight (0)
+
+    return `${month} ${day} at ${formattedHour}:${minute} ${ampm}`;
+};
 
 function QuizList() {
     const [quizzes, setQuizzes] = useState<Quiz[]>([]);
@@ -44,6 +54,9 @@ function QuizList() {
     const [error, setError] = useState<string | null>(null);
     const { courseId } = useParams();
 
+    const handleAddQuiz = () => {
+        // Redirect to the quiz creation page
+    };
     useEffect(() => {
         const fetchQuizzes = async () => {
             try {
@@ -60,53 +73,57 @@ function QuizList() {
         fetchQuizzes();
     }, [courseId]);
 
+    const getAvailabilityStatus = (quiz: Quiz) => {
+        const now = new Date();
+        const availableDate = new Date(quiz.availableDate);
+        const untilDate = new Date(quiz.untilDate);
+
+        if (now > untilDate) {
+            return 'Closed';
+        } else if (now >= availableDate && now <= untilDate) {
+            return 'Available';
+        } else if (now < availableDate) {
+            return `Not available until ${availableDate.toLocaleString()}`;
+        }
+    };
+
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error}</div>;
 
     return (
         <div>
             <h1>Quiz List</h1>
-            {quizzes.map((quiz, index) => (
-                <div key={index}>
-                    <h2>
-                        <Link to={`${quiz._id}`} className="btn btn-primary">{quiz._id}</Link>
-                        {quiz.title} ({quiz.quizType})
-                    </h2>
-                    <p>{quiz.description}</p>
-                    <ul>
-                        <li>Points: {quiz.points}</li>
-                        <li>Assignment Group: {quiz.assignmentGroup}</li>
-                        <li>Shuffle Answers: {quiz.shuffleAnswers ? 'Yes' : 'No'}</li>
-                        <li>Time Limit: {quiz.timeLimit} minutes</li>
-                        <li>Published: {quiz.published ? 'Yes' : 'No'}</li>
-                        <li>Multiple Attempts Allowed: {quiz.multipleAttempts ? 'Yes' : 'No'}</li>
-                        <li>Show Correct Answers: {quiz.showCorrectAnswers}</li>
-                        <li>One Question At A Time: {quiz.oneQuestionAtATime ? 'Yes' : 'No'}</li>
-                        <li>Webcam Required: {quiz.webcamRequired ? 'Yes' : 'No'}</li>
-                        <li>Lock Questions After Answering: {quiz.lockQuestionsAfterAnswering ? 'Yes' : 'No'}</li>
-                        <li>Due Date: {new Date(quiz.dueDate).toLocaleString()}</li>
-                        <li>Available Date: {new Date(quiz.availableDate).toLocaleString()}</li>
-                        <li>Until Date: {new Date(quiz.untilDate).toLocaleString()}</li>
-                    </ul>
-                    <h3>Questions</h3>
-                    <ol>
-                        {quiz.questions.map((question, qIndex) => (
-                            <li key={qIndex}>
-                                {question.description}
-                                {question.answers.length > 0 && (
-                                    <ul>
-                                        {question.answers.map((answer, aIndex) => (
-                                            <li key={aIndex}>{answer}</li>
-                                        ))}
-                                    </ul>
-                                )}
-                            </li>
-                        ))}
-                    </ol>
-                </div>
-            ))}
+            <button className="add-quiz-btn" onClick={handleAddQuiz}>+ Quiz</button>
+            <div className="quiz-list-container">
+                {quizzes.length > 0 ? quizzes.map((quiz, index) => (
+                    <div key={index} className="quiz-box">
+                        <Link to={`${quiz._id}`} style={{ textDecoration: 'none', display: 'block', flexGrow: 1 }}>
+                            <div>
+                                <div className="quiz-title" style={{ fontWeight: 'bold' }}>
+                                    {quiz.title}
+                                </div>
+                                <div className="quiz-details">
+                                    <span className="availability-status">
+                                        {getAvailabilityStatus(quiz)}
+                                    </span> |
+                                    Due {formatDate(quiz.dueDate)} |
+                                    Points: {quiz.points} | {quiz.questions.length} Questions
+                                </div>
+                            </div>
+                        </Link>
+                        <span className={`publish-status ${quiz.published ? 'published' : 'unpublished'}`}>
+                                        {quiz.published ? '✅' : '🚫'}
+                                    </span>
+                        <div onClick={(e) => e.stopPropagation()} className="quiz-context-menu">
+                            {/* Implement the context menu here */}
+                            ...
+                        </div>
+                    </div>
+                )) : <p>No quizzes available. Click "+ Quiz" to add a new one.</p>}
+            </div>
         </div>
     );
+
 };
 
 export default QuizList;
