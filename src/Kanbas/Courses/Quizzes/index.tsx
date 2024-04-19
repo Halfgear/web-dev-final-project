@@ -83,7 +83,7 @@ function QuizList() {
         } else if (now >= availableDate && now <= untilDate) {
             return 'Available';
         } else if (now < availableDate) {
-            return `Not available until ${availableDate.toLocaleString()}`;
+            return `Not available until ${formatDate(quiz.availableDate)}`;
         }
     };
 
