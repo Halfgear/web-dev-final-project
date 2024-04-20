@@ -1,52 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import { findCourseQuizzes } from './client';
+import { createQuiz, findCourseQuizzes } from './client';
 import { Link } from 'react-router-dom';
+import { Quiz } from './types/types';
+import { formatDate } from './utils';
 import './index.css';
-interface Question {
-    _id: string;
-    question_type: number;
-    points: number;
-    description: string;
-    answers: (string | number)[];
-    correct: (string | number)[];
-}
-
-interface Quiz {
-    _id: string;
-    courseId: string;
-    title: string;
-    description: string;
-    quizType: string;
-    points: number;
-    assignmentGroup: string;
-    shuffleAnswers: boolean;
-    timeLimit: number;
-    published: boolean;
-    multipleAttempts: boolean;
-    showCorrectAnswers: string;
-    accessCode: string;
-    oneQuestionAtATime: boolean;
-    webcamRequired: boolean;
-    lockQuestionsAfterAnswering: boolean;
-    dueDate: string;
-    availableDate: string;
-    untilDate: string;
-    questions: Question[];
-}
-
-function formatDate(dateString: string) {
-    const date = new Date(dateString);
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    const month = months[date.getMonth()];
-    const day = date.getDate();
-    const hour = date.getHours();
-    const minute = date.getMinutes().toString().padStart(2, '0'); // Ensures two digits
-    const ampm = hour >= 12 ? 'PM' : 'AM';
-    const formattedHour = hour % 12 || 12; // Converts 24h to 12h format and handles midnight (0)
-
-    return `${month} ${day} at ${formattedHour}:${minute} ${ampm}`;
-};
 
 function QuizList() {
     const [quizzes, setQuizzes] = useState<Quiz[]>([]);
@@ -54,8 +12,40 @@ function QuizList() {
     const [error, setError] = useState<string | null>(null);
     const { courseId } = useParams();
 
-    const handleAddQuiz = () => {
-        // Redirect to the quiz creation page
+    //randomly genreate ID
+    const defaultQuiz: Quiz = {
+        _id: Math.random().toString(36).substring(7),
+        courseId: '', 
+        title: 'New Quiz',
+        description: 'Description of the quiz',
+        quizType: 'Standard',
+        points: 0,
+        assignmentGroup: '',
+        shuffleAnswers: false,
+        timeLimit: 60, // Default time limit in minutes
+        published: false,
+        multipleAttempts: true,
+        showCorrectAnswers: 'After Last Attempt',
+        accessCode: '',
+        oneQuestionAtATime: false,
+        webcamRequired: false,
+        lockQuestionsAfterAnswering: false,
+        dueDate: '',
+        availableDate: '',
+        untilDate: '',
+        questions: [] // Empty questions array, to be populated as needed
+    };
+    const handleAddQuiz = async () => {
+        try {
+            const newQuiz = { ...defaultQuiz, courseId: courseId }; // Ensure courseId is set correctly
+            const createdQuiz = await createQuiz(newQuiz); // Assume createQuiz is an async function that posts the quiz to your backend and returns the newly created quiz
+            if (createdQuiz) {
+                setQuizzes(prevQuizzes => [...prevQuizzes, createdQuiz]);
+            }
+        } catch (error) {
+            console.error('Failed to create new quiz', error);
+            setError('Failed to add new quiz');
+        }
     };
     useEffect(() => {
         const fetchQuizzes = async () => {
@@ -71,7 +61,7 @@ function QuizList() {
         };
 
         fetchQuizzes();
-    }, [courseId]);
+    }, [courseId, quizzes]);
 
     const getAvailabilityStatus = (quiz: Quiz) => {
         const now = new Date();

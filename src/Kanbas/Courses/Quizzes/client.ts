@@ -7,8 +7,8 @@ export const findCourseQuizzes = async (courseId: string) => {
   const response = await axios.get(`${QUIZ_API}/${courseId}/quizzes`);
   return response.data;
 };
-export const createQuiz = async (courseId: any, quiz: any) => {
-  const response = await axios.post(`${QUIZ_API}/${courseId}/quizzes`, quiz);
+export const createQuiz = async (quiz: any) => {
+  const response = await axios.post(`${QUIZ_API}/quizzes`, quiz);
   return response.data;
 };
 export const deleteQuiz = async (quizId: any) => {
