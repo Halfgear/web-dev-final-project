@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
-import { createQuiz, findCourseQuizzes } from './client';
+import { useParams, useNavigate } from 'react-router';
+import { createQuiz, findCourseQuizzes, deleteQuiz, updateQuiz } from './client';
 import { Link } from 'react-router-dom';
 import { Quiz } from './types/types';
 import { formatDate } from './utils';
@@ -11,11 +11,15 @@ function QuizList() {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const { courseId } = useParams();
-
+    const navigate = useNavigate();
+    const [contextMenu, setContextMenu] = useState<{ [key: string]: boolean }>({});
+    const toggleContextMenu = (quizId: string) => {
+        setContextMenu(prev => ({ ...prev, [quizId]: !prev[quizId] }));
+    };
     //randomly genreate ID
     const defaultQuiz: Quiz = {
         _id: Math.random().toString(36).substring(7),
-        courseId: '', 
+        courseId: '',
         title: 'New Quiz',
         description: 'Description of the quiz',
         quizType: 'Standard',
@@ -50,7 +54,7 @@ function QuizList() {
     useEffect(() => {
         const fetchQuizzes = async () => {
             try {
-                const data = await findCourseQuizzes(courseId || '');
+                const data = await findCourseQuizzes(courseId);
                 setQuizzes(data || []);
                 setLoading(false);
             } catch (err) {
@@ -74,6 +78,29 @@ function QuizList() {
             return 'Available';
         } else if (now < availableDate) {
             return `Not available until ${formatDate(quiz.availableDate)}`;
+        }
+    };
+    const handleEditQuiz = (quizId: string) => {
+        navigate(`./${quizId}/editor/Details`);
+    };
+    const handleDeleteQuiz = async (quizId: string) => {
+        try {
+            await deleteQuiz(quizId);
+            setQuizzes(prevQuizzes => prevQuizzes.filter(quiz => quiz._id !== quizId));
+        } catch (error) {
+            console.error('Failed to delete quiz', error);
+            setError('Failed to delete quiz');
+        }
+    };
+
+    const handlePublishToggle = async (quizId:string, quiz:Quiz) => {
+        const updatedQuiz = { ...quiz, published: !quiz.published };
+        try {
+            await updateQuiz(quizId, updatedQuiz);
+            setQuizzes(prevQuizzes => prevQuizzes.map(q => q._id === quiz._id ? updatedQuiz : q));
+        } catch (error) {
+            console.error('Failed to toggle publish status', error);
+            setError('Failed to update quiz');
         }
     };
 
@@ -102,18 +129,26 @@ function QuizList() {
                             </div>
                         </Link>
                         <span className={`publish-status ${quiz.published ? 'published' : 'unpublished'}`}>
-                                        {quiz.published ? '✅' : '🚫'}
-                                    </span>
-                        <div onClick={(e) => e.stopPropagation()} className="quiz-context-menu">
-                            {/* Implement the context menu here */}
-                            ...
-                        </div>
+                            {quiz.published ? '✅' : '🚫'}
+                        </span>
+                        <button className="context-menu-button" onClick={(e) => {
+                            e.stopPropagation();
+                            toggleContextMenu(quiz._id);
+                        }}>⋮</button>
+                        {contextMenu[quiz._id] && (
+                            <div className="quiz-context-menu">
+                                <button onClick={() => handleEditQuiz(quiz._id)}>Edit</button>
+                                <button onClick={() => handleDeleteQuiz(quiz._id)}>Delete</button>
+                                <button onClick={() => handlePublishToggle(quiz._id, quiz)}>
+                                    {quiz.published ? 'Unpublish' : 'Publish'}
+                                </button>
+                            </div>
+                        )}
                     </div>
                 )) : <p>No quizzes available. Click "+ Quiz" to add a new one.</p>}
             </div>
         </div>
     );
-
 };
 
 export default QuizList;
