@@ -1,66 +1,60 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
-import { findCourseQuizzes } from './client';
+import { useParams, useNavigate } from 'react-router';
+import { createQuiz, findCourseQuizzes, deleteQuiz, updateQuiz } from './client';
 import { Link } from 'react-router-dom';
+import { Quiz } from './types/types';
+import { formatDate } from './utils';
 import './index.css';
-interface Question {
-    _id: string;
-    question_type: number;
-    points: number;
-    description: string;
-    answers: (string | number)[];
-    correct: (string | number)[];
-}
-
-interface Quiz {
-    _id: string;
-    courseId: string;
-    title: string;
-    description: string;
-    quizType: string;
-    points: number;
-    assignmentGroup: string;
-    shuffleAnswers: boolean;
-    timeLimit: number;
-    published: boolean;
-    multipleAttempts: boolean;
-    showCorrectAnswers: string;
-    accessCode: string;
-    oneQuestionAtATime: boolean;
-    webcamRequired: boolean;
-    lockQuestionsAfterAnswering: boolean;
-    dueDate: string;
-    availableDate: string;
-    untilDate: string;
-    questions: Question[];
-}
-
-function formatDate(dateString: string) {
-    const date = new Date(dateString);
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    const month = months[date.getMonth()];
-    const day = date.getDate();
-    const hour = date.getHours();
-    const minute = date.getMinutes().toString().padStart(2, '0'); // Ensures two digits
-    const ampm = hour >= 12 ? 'PM' : 'AM';
-    const formattedHour = hour % 12 || 12; // Converts 24h to 12h format and handles midnight (0)
-
-    return `${month} ${day} at ${formattedHour}:${minute} ${ampm}`;
-};
 
 function QuizList() {
     const [quizzes, setQuizzes] = useState<Quiz[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const { courseId } = useParams();
-
-    const handleAddQuiz = () => {
-        // Redirect to the quiz creation page
+    const navigate = useNavigate();
+    const [contextMenu, setContextMenu] = useState<{ [key: string]: boolean }>({});
+    const toggleContextMenu = (quizId: string) => {
+        setContextMenu(prev => ({ ...prev, [quizId]: !prev[quizId] }));
+    };
+    //randomly genreate ID
+    const defaultQuiz: Quiz = {
+        _id: Math.random().toString(36).substring(7),
+        courseId: '',
+        title: 'New Quiz',
+        description: 'Description of the quiz',
+        quizType: 'Standard',
+        points: 0,
+        assignmentGroup: '',
+        shuffleAnswers: false,
+        timeLimit: 60, // Default time limit in minutes
+        published: false,
+        multipleAttempts: true,
+        showCorrectAnswers: 'After Last Attempt',
+        accessCode: '',
+        oneQuestionAtATime: false,
+        webcamRequired: false,
+        lockQuestionsAfterAnswering: false,
+        dueDate: '',
+        availableDate: '',
+        untilDate: '',
+        questions: [] // Empty questions array, to be populated as needed
+    };
+    const handleAddQuiz = async () => {
+        try {
+            const newQuiz = { ...defaultQuiz, courseId: courseId }; // Ensure courseId is set correctly
+            const createdQuiz = await createQuiz(newQuiz); // Assume createQuiz is an async function that posts the quiz to your backend and returns the newly created quiz
+            if (createdQuiz) {
+                setQuizzes(prevQuizzes => [...prevQuizzes, createdQuiz]);
+            }
+        } catch (error) {
+            console.error('Failed to create new quiz', error);
+            setError('Failed to add new quiz');
+        }
     };
     useEffect(() => {
         const fetchQuizzes = async () => {
             try {
-                const data = await findCourseQuizzes(courseId || '');
+                const data = await findCourseQuizzes(courseId);
                 setQuizzes(data || []);
                 setLoading(false);
             } catch (err) {
@@ -71,7 +65,7 @@ function QuizList() {
         };
 
         fetchQuizzes();
-    }, [courseId]);
+    }, [courseId, quizzes]);
 
     const getAvailabilityStatus = (quiz: Quiz) => {
         const now = new Date();
@@ -84,6 +78,29 @@ function QuizList() {
             return 'Available';
         } else if (now < availableDate) {
             return `Not available until ${formatDate(quiz.availableDate)}`;
+        }
+    };
+    const handleEditQuiz = (quizId: string) => {
+        navigate(`./${quizId}/editor/Details`);
+    };
+    const handleDeleteQuiz = async (quizId: string) => {
+        try {
+            await deleteQuiz(quizId);
+            setQuizzes(prevQuizzes => prevQuizzes.filter(quiz => quiz._id !== quizId));
+        } catch (error) {
+            console.error('Failed to delete quiz', error);
+            setError('Failed to delete quiz');
+        }
+    };
+
+    const handlePublishToggle = async (quizId:string, quiz:Quiz) => {
+        const updatedQuiz = { ...quiz, published: !quiz.published };
+        try {
+            await updateQuiz(quizId, updatedQuiz);
+            setQuizzes(prevQuizzes => prevQuizzes.map(q => q._id === quiz._id ? updatedQuiz : q));
+        } catch (error) {
+            console.error('Failed to toggle publish status', error);
+            setError('Failed to update quiz');
         }
     };
 
@@ -112,18 +129,26 @@ function QuizList() {
                             </div>
                         </Link>
                         <span className={`publish-status ${quiz.published ? 'published' : 'unpublished'}`}>
-                                        {quiz.published ? '✅' : '🚫'}
-                                    </span>
-                        <div onClick={(e) => e.stopPropagation()} className="quiz-context-menu">
-                            {/* Implement the context menu here */}
-                            ...
-                        </div>
+                            {quiz.published ? '✅' : '🚫'}
+                        </span>
+                        <button className="context-menu-button" onClick={(e) => {
+                            e.stopPropagation();
+                            toggleContextMenu(quiz._id);
+                        }}>⋮</button>
+                        {contextMenu[quiz._id] && (
+                            <div className="quiz-context-menu">
+                                <button onClick={() => handleEditQuiz(quiz._id)}>Edit</button>
+                                <button onClick={() => handleDeleteQuiz(quiz._id)}>Delete</button>
+                                <button onClick={() => handlePublishToggle(quiz._id, quiz)}>
+                                    {quiz.published ? 'Unpublish' : 'Publish'}
+                                </button>
+                            </div>
+                        )}
                     </div>
                 )) : <p>No quizzes available. Click "+ Quiz" to add a new one.</p>}
             </div>
         </div>
     );
-
 };
 
 export default QuizList;
