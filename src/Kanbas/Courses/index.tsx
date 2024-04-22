@@ -9,7 +9,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Quiz from "./Quizzes";
 import QuizDetails from "./Quizzes/Details";
-import QuizPreview from "./Quizzes/Preview";
+import QuizPreview from "./Quizzes/Details/Preview";
 import QuizEditor from "./Quizzes/Details/Editor/Details";
 import QuestionEditor from "./Quizzes/Details/Editor/Question";
 
@@ -53,7 +53,7 @@ function Courses() {
                         <Route path="Grades" element={<h1 className="tap-title">Grades</h1>} />
                         <Route path="Quizzes" element={<Quiz />} />
                         <Route path="Quizzes/:quizId" element={<QuizDetails />} />
-                        <Route path="Quizzes/Preview/:quizId" element={<QuizPreview />} />
+                        <Route path="Quizzes/:quizId/Preview/" element={<QuizPreview />} />
                         <Route path="Quizzes/:quizId/Editor/Details" element={<QuizEditor />} />
                         <Route path="Quizzes/:quizId/Editor/Question" element={<QuestionEditor />} />
                     </Routes>
