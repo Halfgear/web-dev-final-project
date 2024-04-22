@@ -96,7 +96,7 @@ function QuizList() {
     const handlePublishToggle = async (quizId:string, quiz:Quiz) => {
         const updatedQuiz = { ...quiz, published: !quiz.published };
         try {
-            await updateQuiz(quizId, updatedQuiz);
+            await updateQuiz(updatedQuiz);
             setQuizzes(prevQuizzes => prevQuizzes.map(q => q._id === quiz._id ? updatedQuiz : q));
         } catch (error) {
             console.error('Failed to toggle publish status', error);

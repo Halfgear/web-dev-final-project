@@ -10,7 +10,7 @@ import axios from "axios";
 import Quiz from "./Quizzes";
 import QuizDetails from "./Quizzes/Details";
 import QuizPreview from "./Quizzes/Preview";
-import QuizEditor from "./Quizzes/Details/Editor";
+import QuizEditor from "./Quizzes/Details/Editor/Details";
 import QuestionEditor from "./Quizzes/Details/Editor/Question";
 
 function Courses() {

@@ -15,3 +15,12 @@ hr {
     padding: 0px;
     margin: 0px;
 }
+
+.save-bar {
+    margin-top: 20px;
+}
+
+.save-bar>.button {
+    margin: 10px;
+    float: right;
+}
