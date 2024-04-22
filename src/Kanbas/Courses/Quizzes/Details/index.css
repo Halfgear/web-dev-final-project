@@ -24,3 +24,76 @@ hr {
     margin: 10px;
     float: right;
 }
+
+/* Button base styling */
+.btn {
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Published state styling */
+.btn-published {
+    background-color: #28a745; /* Green background */
+}
+
+.btn-published:hover {
+    background-color: #218838; /* Darker green on hover */
+}
+
+.btn-published:before {
+    content: '\2713'; /* Unicode check mark */
+    margin-right: 8px;
+}
+
+/* Unpublished state styling */
+.btn-unpublished {
+    background-color: #6c757d; /* Grey background */
+}
+
+.btn-unpublished:hover {
+    background-color: #5a6268; /* Darker grey on hover */
+}
+
+/* Additional styling to enhance the button's appearance */
+.btn:active {
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+}
+
+/* Container holding buttons */
+.button-container {
+    display: flex;
+    justify-content: flex-end; /* Align buttons to the far right */
+    align-items: center;
+    margin-right: 100px;
+    gap: 10px; /* Space between buttons */
+    padding: 10px; /* Optional padding for spacing */
+}
+
+/* Styling for the Edit link */
+.btn-link {
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none; /* Remove underline */
+    color: white; /* Text color */
+    background-color: #3498db; /* Blue background */
+    transition: background-color 0.3s ease-in-out;
+    display: inline-flex; /* Ensure it aligns with flexbox */
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-link:hover {
+    background-color: #2980b9; /* Darker blue on hover */
+}
+

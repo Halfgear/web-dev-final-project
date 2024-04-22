@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from "react-router";
 import "./index.css";
 import { Link } from 'react-router-dom';
-
+import { Quiz } from '../types/types';
+import { updateQuiz } from '../client';
 interface QuizDetailsProps {
     quizId: string;
 }
@@ -25,11 +26,30 @@ const QuizDetails = () => {
         return <div>Loading quiz details...</div>;
     }
 
+    const handlePublishToggle = async (quizId: string, quiz: Quiz) => {
+        const updatedQuiz = { ...quiz, published: !quiz.published };
+        try {
+            await updateQuiz(updatedQuiz);
+            setQuiz(updatedQuiz);
+        } catch (error) {
+            console.error('Failed to toggle publish status', error);
+        }
+    };
+
     return (
         <div>
             <h1>{quiz.title}</h1>
-            <Link to={`Editor/Details`} className="btn btn-primary">EDIT</Link>
-            
+            <div className="button-container">
+                <button
+                    className={`btn ${quiz.published ? 'btn-published' : 'btn-unpublished'}`}
+                    onClick={() => handlePublishToggle(quiz._id, quiz)}
+                >
+                    {quiz.published ? 'Unpublish' : 'Publish'}
+                </button>
+                <Link to={`Editor/Details`} className="btn-link">EDIT</Link>
+                <Link to={`Preview`} className="btn-link">Preview</Link>
+            </div>
+            <hr />
             <table>
                 <tr>
                     <td className='list-bold'><b>Quiz Type</b></td>
