@@ -1,3 +1,12 @@
+# TODOS
+- Functionality for Question Editor Screen (Additionally re-route quiz editor screen to be what the quiz preview screen is PLUS an edit button for each question that turns a question into how it is formatted on the current Question Editor Screen with blanks and stuff to edit)
+
+- WYSIWYG Editor in both quiz questions and quiz editor
+
+- Bug in loading dates into Quiz Editor Screen (open the console when loading Quiz Editor for details)
+
+- Adding a 'title' for quiz questions (once added on back schema as well as front end 'types', add question.title to quiz preview screen and quiz editor screen
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
