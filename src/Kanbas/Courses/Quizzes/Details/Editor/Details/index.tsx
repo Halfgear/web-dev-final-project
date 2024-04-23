@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import QuizNav from '../Nav';
-import * as client from "../../../client";
+import {updateQuiz} from "../../../client";
 import { Quiz } from '../../../types/types';
 import '../../index.css';
 import { formatDate } from '../../../utils';
+import { Editor } from '@tinymce/tinymce-react';
 
 interface QuizEditorProps {
     // Add any necessary props here
@@ -14,6 +15,7 @@ const QuizEditor: React.FC<QuizEditorProps> = () => {
     const [quiz, setQuiz] = useState<Quiz>(null as any);
     const { quizId } = useParams();
     const API_BASE = process.env.REACT_APP_API_BASE;
+    const editorRef = useRef(null);
 
     // Everything below handles updates to quiz features
     const handleQuizTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -89,9 +91,9 @@ const QuizEditor: React.FC<QuizEditorProps> = () => {
     };
 
     // when update button is hit, this code updates the database
-    const updateQuiz = async () => {
+    const handleupdateQuiz = async (quiz:Quiz) => {
         try {
-            const status = await client.updateQuiz(quiz);
+            await updateQuiz(quiz);
         } catch (err) {
             console.log(err);
         }
@@ -99,9 +101,9 @@ const QuizEditor: React.FC<QuizEditorProps> = () => {
 
     // Toggles Publish and then updates quiz (used for Save and Publish Button)
     const publishAndUpdate = () => {
-        setQuiz({ ...quiz, published: true });
-        console.log(quiz.published);
-        updateQuiz();
+        const updatedQuiz = { ...quiz, published: true };
+        setQuiz(updatedQuiz);        
+        handleupdateQuiz(updatedQuiz);
     }
 
     // defines path to return to after certain buttons are hit
@@ -131,10 +133,21 @@ const QuizEditor: React.FC<QuizEditorProps> = () => {
             <label htmlFor="quizTitle">Quiz Title:</label>
             <br />
             <input className='enter-box' type="text" id="quizTitle" value={quiz.title} onChange={handleQuizTitleChange} />
-
             <p>Quiz Instructions:</p>
-            <textarea></textarea>
-
+            <Editor
+                apiKey='ayfauai55c5w2b1fo820wvi93k42dh0irg5jz7qz9ai3kdw2'
+                init={{
+                    plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage advtemplate ai mentions tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss markdown',
+                    toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+                    tinycomments_mode: 'embedded',
+                    tinycomments_author: 'Author name',
+                    mergetags_list: [
+                        { value: 'First.Name', title: 'First Name' },
+                        { value: 'Email', title: 'Email' },
+                    ],
+                }}
+                initialValue={quiz.description}
+            />
             <br />
             <table className='details-table'>
                 <tr className='detail-row'>
@@ -212,7 +225,7 @@ const QuizEditor: React.FC<QuizEditorProps> = () => {
                 <input className='enter-box checkbox' type="checkbox" onChange={handleLQAAChange} name="LQAA" id="LQAA" checked={quiz.lockQuestionsAfterAnswering ? true : false} />
 
             </div>
-            <div className='option-container'> 
+            <div className='option-container'>
                 <label htmlFor="dueDate">Due Date:</label>
                 <input className='enter-box' type="datetime-local" id="dueDate" onChange={handleDueDateChange} name="dueDate" value={quiz.dueDate} />
 
@@ -241,11 +254,8 @@ const QuizEditor: React.FC<QuizEditorProps> = () => {
                 </Link>
 
                 <Link to={quizDetailsScreen}>
-                    <button className="btn-link btn-save" onClick={updateQuiz}>Save</button>
+                    <button className="btn-link btn-save" onClick={publishAndUpdate}>Save</button>
                 </Link>
-
-
-
             </div>
 
         </div>
