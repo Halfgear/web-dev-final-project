@@ -4,6 +4,7 @@ import "./index.css";
 import { Link } from 'react-router-dom';
 import { Quiz } from '../types/types';
 import { updateQuiz } from '../client';
+import { FaEdit } from 'react-icons/fa';
 interface QuizDetailsProps {
     quizId: string;
 }
@@ -38,7 +39,6 @@ const QuizDetails = () => {
 
     return (
         <div>
-            <h1>{quiz.title}</h1>
             <div className="button-container">
                 <button
                     className={`btn ${quiz.published ? 'btn-published' : 'btn-unpublished'}`}
@@ -46,10 +46,11 @@ const QuizDetails = () => {
                 >
                     {quiz.published ? 'Unpublish' : 'Publish'}
                 </button>
-                <Link to={`Editor/Details`} className="btn-link">EDIT</Link>
+                <Link to={`Editor/Details`} className="btn-link"><FaEdit/> EDIT</Link>
                 <Link to={`Preview`} className="btn-link">Preview</Link>
             </div>
             <hr />
+            <h1>{quiz.title}</h1>
             <table>
                 <tr>
                     <td className='list-bold'><b>Quiz Type</b></td>

@@ -14,7 +14,7 @@ const QuestionEditor: React.FC<QuestionEditorProps> = () => {
     const API_BASE = process.env.REACT_APP_API_BASE;
 
     const [quizTitle, setQuizTitle] = useState('');
-    const [questions, setQuestions] = useState([]);
+    const [questions, setQuestions] = useState([] as any);
 
     const handleQuizTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setQuizTitle(e.target.value);

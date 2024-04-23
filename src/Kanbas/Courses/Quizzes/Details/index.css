@@ -16,13 +16,20 @@ hr {
     margin: 0px;
 }
 
-.save-bar {
+.hr-save-bar {
+    padding: 0px;
     margin-top: 20px;
+    margin-bottom: -20px;
 }
 
-.save-bar>.button {
-    margin: 10px;
-    float: right;
+.save-bar {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end; /* Align buttons to the far right */
+    align-items: center;
+    margin-right: 100px;
+    gap: 10px; /* Space between buttons */
+    padding: 10px; /* Optional padding for spacing */
 }
 
 /* Button base styling */
@@ -97,3 +104,50 @@ hr {
     background-color: #2980b9; /* Darker blue on hover */
 }
 
+.btn-save {
+    color: white;
+    background-color: red;
+}
+
+.enter-box{
+    padding: 5px;
+    position: relative;
+    left: 0;
+    outline: none;
+    border: 1px solid #cdcdcd;
+    border-color: rgba(0,0,0,.15);
+    background-color: white;
+    font-size: 16px;
+    margin-left: 10px;
+    width: 170px;
+}
+
+.checkbox {
+    transform: scale(1.3, 1.3);
+    width: auto;
+}
+
+.details-table {
+    margin-left: auto;
+    margin-right: 50%;
+}
+
+.detail-row {
+    margin: auto;
+    margin-top: 10px;
+}
+
+.detail-type {
+    text-align: right;
+    margin-top: 10px;
+}
+
+.option-container {
+    display: inline-block;
+    vertical-align: text-top;
+    margin-right: 20px;
+}
+
+.time {
+    width: 20%;
+}

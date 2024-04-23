@@ -4,6 +4,7 @@ import QuizNav from '../Nav';
 import * as client from "../../../client";
 import { Quiz } from '../../../types/types';
 import '../../index.css';
+import { formatDate } from '../../../utils';
 
 interface QuizEditorProps {
     // Add any necessary props here
@@ -21,7 +22,6 @@ const QuizEditor: React.FC<QuizEditorProps> = () => {
 
     const handleQuizTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setQuiz({ ...quiz, quizType: e.target.value });
-        console.log(quiz.quizType);
     };
 
     const handlePointTypeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -78,17 +78,14 @@ const QuizEditor: React.FC<QuizEditorProps> = () => {
 
     const handleDueDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setQuiz({ ...quiz, dueDate: e.target.value });
-        console.log(quiz.dueDate)
     };
 
     const handleAvailableDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setQuiz({ ...quiz, availableDate: e.target.value });
-        console.log(quiz.availableDate)
     };
 
     const handleUntilDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setQuiz({ ...quiz, untilDate: e.target.value });
-        console.log(quiz.untilDate)
     };
 
     // when update button is hit, this code updates the database
@@ -99,6 +96,13 @@ const QuizEditor: React.FC<QuizEditorProps> = () => {
             console.log(err);
         }
     };
+
+    // Toggles Publish and then updates quiz (used for Save and Publish Button)
+    const publishAndUpdate = () => {
+        setQuiz({ ...quiz, published: true });
+        console.log(quiz.published);
+        updateQuiz();
+    }
 
     // defines path to return to after certain buttons are hit
     const { pathname } = useLocation();
@@ -126,91 +130,118 @@ const QuizEditor: React.FC<QuizEditorProps> = () => {
             <h1>Quiz Editor</h1>
             <label htmlFor="quizTitle">Quiz Title:</label>
             <br />
-            <input type="text" id="quizTitle" value={quiz.title} onChange={handleQuizTitleChange} />
+            <input className='enter-box' type="text" id="quizTitle" value={quiz.title} onChange={handleQuizTitleChange} />
 
             <p>Quiz Instructions:</p>
             <textarea></textarea>
 
             <br />
-            <label htmlFor="quizType">Quiz Type:</label>
-            <select id="quizType" onChange={handleQuizTypeChange}>
-                <option selected={quiz.quizType === 'Graded Quiz' ? true : false} value="Graded Quiz">Graded Quiz</option>
-                <option selected={quiz.quizType === 'Practice Quiz' ? true : false} value="Practice Quiz">Practice Quiz</option>
-                <option selected={quiz.quizType === 'Graded Survey' ? true : false} value="Graded Survey">Graded Survey</option>
-                <option selected={quiz.quizType === 'Ungraded Survey' ? true : false} value="Ungraded Survey">Ungraded Survey</option>
-            </select>
+            <table className='details-table'>
+                <tr className='detail-row'>
+                    <td className='detail-type'>
+                        <label htmlFor="quizType">Quiz Type:</label>
+                    </td>
+                    <td>
+                        <select className='enter-box' id="quizType" onChange={handleQuizTypeChange}>
+                            <option selected={quiz.quizType === 'Graded Quiz' ? true : false} value="Graded Quiz">Graded Quiz</option>
+                            <option selected={quiz.quizType === 'Practice Quiz' ? true : false} value="Practice Quiz">Practice Quiz</option>
+                            <option selected={quiz.quizType === 'Graded Survey' ? true : false} value="Graded Survey">Graded Survey</option>
+                            <option selected={quiz.quizType === 'Ungraded Survey' ? true : false} value="Ungraded Survey">Ungraded Survey</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr className='detail-row'>
+                    <td className='detail-type'>
+                        <label htmlFor="assignmentGroup">Assignment Type:</label>
+                    </td>
+                    <td>
+                        <select className='enter-box' id="assignmentGroup" onChange={handleAssGroupChange}>
+                            <option selected={quiz.assignmentGroup === 'Quizzes' ? true : false} value="Quizzes">Quizzes</option>
+                            <option selected={quiz.assignmentGroup === 'Exams' ? true : false} value="Exams">Exams</option>
+                            <option selected={quiz.assignmentGroup === 'Assignments' ? true : false} value="Assignments">Assignments</option>
+                            <option selected={quiz.assignmentGroup === 'Project' ? true : false} value="Project">Project</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr className='detail-row'>
+                    <td className='detail-type'>
+                        <label htmlFor='points'>Points:</label>
+                    </td>
+                    <td>
+                        <input className='enter-box' type='number' id='points' onChange={handlePointTypeChange} value={quiz.points} />
+                    </td>
+                </tr>
+                <tr className='detail-row'>
+                    <td className='detail-type'>
+                        <label htmlFor="accessCode">Access Code:</label>
+                    </td>
+                    <td>
+                        <input className='enter-box' type="text" id="accessCode" value={quiz.accessCode} onChange={handleAccessCodeChange} />
+                    </td>
+                </tr>
+            </table>
 
             <br />
-            <label htmlFor='points'>Points:</label>
-            <input type='number' id='points' onChange={handlePointTypeChange} value={quiz.points} />
+            <p>Other Options:</p>
+            <div className='option-container'>
+                <label htmlFor="shuffle">Shuffle Answers?</label>
+                <input className='enter-box checkbox' type="checkbox" onChange={handleShuffleChange} name="shuffleAnswers" id="shuffle" checked={quiz.shuffleAnswers ? true : false} />
 
-            <br />
-            <label htmlFor="assignmentGroup">Assignment Type:</label>
-            <select id="assignmentGroup" onChange={handleAssGroupChange}>
-                <option selected={quiz.assignmentGroup === 'Quizzes' ? true : false} value="Quizzes">Quizzes</option>
-                <option selected={quiz.assignmentGroup === 'Exams' ? true : false} value="Exams">Exams</option>
-                <option selected={quiz.assignmentGroup === 'Assignments' ? true : false} value="Assignments">Assignments</option>
-                <option selected={quiz.assignmentGroup === 'Project' ? true : false} value="Project">Project</option>
-            </select>
+                <br />
+                <label htmlFor='time'>Time Limit (Minutes):</label>
+                <input className='enter-box time' type='number' id='time' onChange={handleTimeChange} value={quiz.timeLimit} />
 
-            <br />
-            <label htmlFor="shuffle">Shuffle Answers?</label>
-            <input type="checkbox" onChange={handleShuffleChange} name="shuffleAnswers" id="shuffle" checked={quiz.shuffleAnswers ? true : false} />
+                <br />
+                <label htmlFor="multAttempts">Multiple Attempts?</label>
+                <input className='enter-box checkbox' type="checkbox" onChange={handleMultAttemptsChange} name="multAttempts" id="multAttempts" checked={quiz.multipleAttempts ? true : false} />
 
-            <br />
-            <label htmlFor='time'>Time Limit (Minutes):</label>
-            <input type='number' id='time' onChange={handleTimeChange} value={quiz.timeLimit} />
+                <br />
+                <label htmlFor="multAttempts">Show Correct Answers Upon Completion?</label>
+                <input className='enter-box checkbox' type="checkbox" onChange={handleShowAnsChange} name="showAns" id="showAns" checked={quiz.showCorrectAnswers === 'true' ? true : false} />
 
-            <br />
-            <label htmlFor="multAttempts">Multiple Attempts?</label>
-            <input type="checkbox" onChange={handleMultAttemptsChange} name="multAttempts" id="multAttempts" checked={quiz.multipleAttempts ? true : false} />
+                <br />
+                <label htmlFor="OQaaT">One Question at a Time?</label>
+                <input className='enter-box checkbox' type="checkbox" onChange={handleOQaaTChange} name="OQaaT" id="OQaaT" checked={quiz.oneQuestionAtATime ? true : false} />
 
-            <br />
-            <label htmlFor="multAttempts">Show Correct Answers Upon Completion?</label>
-            <input type="checkbox" onChange={handleShowAnsChange} name="showAns" id="showAns" checked={quiz.showCorrectAnswers === 'true' ? true : false} />
+                <br />
+                <label htmlFor="webcam">Webcam Required?</label>
+                <input className='enter-box checkbox' type="checkbox" onChange={handleWebcamChange} name="webcam" id="webcam" checked={quiz.webcamRequired ? true : false} />
 
-            <br />
-            <label htmlFor="accessCode">Access Code:</label>
-            <br />
-            <input type="text" id="accessCode" value={quiz.accessCode} onChange={handleAccessCodeChange} />
+                <br />
+                <label htmlFor="LQAA">Lock Questions After Answering?</label>
+                <input className='enter-box checkbox' type="checkbox" onChange={handleLQAAChange} name="LQAA" id="LQAA" checked={quiz.lockQuestionsAfterAnswering ? true : false} />
 
-            <br />
-            <label htmlFor="OQaaT">One Question at a Time?</label>
-            <input type="checkbox" onChange={handleOQaaTChange} name="OQaaT" id="OQaaT" checked={quiz.oneQuestionAtATime ? true : false} />
+            </div>
+            <div className='option-container'> 
+                <label htmlFor="dueDate">Due Date:</label>
+                <input className='enter-box' type="datetime-local" id="dueDate" onChange={handleDueDateChange} name="dueDate" value={quiz.dueDate} />
 
-            <br />
-            <label htmlFor="webcam">Webcam Required?</label>
-            <input type="checkbox" onChange={handleWebcamChange} name="webcam" id="webcam" checked={quiz.webcamRequired ? true : false} />
+                <br />
+                <br />
+                <label htmlFor="availableDate">Date When Available:</label>
+                <input className='enter-box' type="datetime-local" id="availableDate" onChange={handleAvailableDateChange} name="availableDate" value={quiz.availableDate} />
 
-            <br />
-            <label htmlFor="LQAA">Lock Questions After Answering?</label>
-            <input type="checkbox" onChange={handleLQAAChange} name="LQAA" id="LQAA" checked={quiz.lockQuestionsAfterAnswering ? true : false} />
+                <br />
+                <br />
+                <label htmlFor="untilDate">Available Until:</label>
+                <input className='enter-box' type="datetime-local" id="untilDate" onChange={handleUntilDateChange} name="untilDate" value={quiz.untilDate} />
+            </div>
 
-            <br />
-            <label htmlFor="dueDate">Due Date:</label>
-            <input type="datetime-local" id="dueDate" onChange={handleDueDateChange} name="dueDate" value={quiz.dueDate} />
-
-            <br />
-            <label htmlFor="availableDate">Due Date:</label>
-            <input type="datetime-local" id="availableDate" onChange={handleAvailableDateChange} name="availableDate" value={quiz.availableDate} />
-
-            <br />
-            <label htmlFor="untilDate">Due Date:</label>
-            <input type="datetime-local" id="untilDate" onChange={handleUntilDateChange} name="untilDate" value={quiz.untilDate} />
+            <hr className='hr-save-bar' />
 
             <div className='save-bar'>
-                <hr />
-                <Link to={quizDetailsScreen}>
-                    <button className="button" onClick={updateQuiz}>Save</button>
+                <Link to={quizListScreen}>
+                    <button className="btn-link" >Cancel</button>
                 </Link>
                 {/**
                  * ADD PUBLISH FEATURE BELOW
                  */}
                 <Link to={quizListScreen}>
-                    <button className="button" onClick={updateQuiz}>Save and Publish</button>
+                    <button className="btn-link" onClick={publishAndUpdate}>Save and Publish</button>
                 </Link>
-                <Link to={quizListScreen}>
-                    <button className="button" >Cancel</button>
+
+                <Link to={quizDetailsScreen}>
+                    <button className="btn-link btn-save" onClick={updateQuiz}>Save</button>
                 </Link>
 
 
