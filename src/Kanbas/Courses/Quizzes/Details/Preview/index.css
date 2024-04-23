@@ -1,0 +1,179 @@
+hr {
+    padding: 0px;
+    margin: 0px;
+}
+
+.hr-save-bar {
+    padding: 0px;
+    margin-top: 20px;
+    margin-bottom: -20px;
+}
+
+.save-bar {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end; /* Align buttons to the far right */
+    align-items: center;
+    margin-right: 100px;
+    gap: 10px; /* Space between buttons */
+    padding: 10px; /* Optional padding for spacing */
+}
+
+/* Container holding buttons */
+.button-container {
+    display: flex;
+    justify-content: flex-end; /* Align buttons to the far right */
+    align-items: center;
+    margin-right: 100px;
+    gap: 10px; /* Space between buttons */
+    padding: 10px; /* Optional padding for spacing */
+}
+
+/* Styling for the Edit link */
+.btn-link {
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none; /* Remove underline */
+    color: white; /* Text color */
+    background-color: #3498db; /* Blue background */
+    transition: background-color 0.3s ease-in-out;
+    display: inline-flex; /* Ensure it aligns with flexbox */
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-link:hover {
+    background-color: #2980b9; /* Darker blue on hover */
+}
+
+.btn-save {
+    color: white;
+    background-color: red;
+}
+
+.q-btn {
+    margin-left: 10px;
+}
+
+.enter-box{
+    padding: 5px;
+    position: relative;
+    left: 0;
+    outline: none;
+    border: 1px solid #cdcdcd;
+    border-color: rgba(0,0,0,.15);
+    background-color: white;
+    font-size: 16px;
+    margin-left: 10px;
+    width: 170px;
+}
+
+.checkbox {
+    transform: scale(1.3, 1.3);
+    width: auto;
+}
+
+.details-table {
+    margin-left: auto;
+    margin-right: 50%;
+}
+
+.detail-row {
+    margin: auto;
+    margin-top: 10px;
+}
+
+.detail-type {
+    text-align: right;
+    margin-top: 10px;
+}
+
+.option-container {
+    display: inline-block;
+    vertical-align: text-top;
+    margin-right: 20px;
+}
+
+.time {
+    width: 20%;
+}
+
+.question-header {
+    display: inline-block;
+    width: 50%;
+    border: gray;
+    border-style: solid;
+    background-color: lightgray;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.question-body {
+    width: 50%;
+    border: gray;
+    border-width: 1px;
+    border-style: solid;
+    padding-left: 10px;
+}
+
+.point {
+    width: 50px;
+    text-align: center;
+}
+
+.correct {
+    color: #28a745;
+}
+
+.mult-choice {
+    width: auto;
+    margin-left: 10px;
+}
+
+.btn-answer {
+    border: none;
+    background-color: white;
+    color: red;
+}
+
+.mult-choice-label {
+    margin-left: 10px;
+}
+
+.mult-choice-ans {
+    display: inline-block;
+    margin: 10px;
+}
+
+.ans-container {
+    padding: 10px;
+}
+
+.question-container {
+    margin-bottom: 20px;
+}
+
+.question-box {
+    width: 90%;
+}
+
+.q-space {
+    margin-top: 5px;
+    padding-top: 5px;
+}
+
+.question-hr {
+    padding: 5px;
+}
+
+.q-prev-list {
+    margin-left: 20px;
+}
+
+.q-circle {
+    padding-bottom: 3px;
+}

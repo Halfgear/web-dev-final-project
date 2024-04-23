@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import QuizNav from '../Nav';
 import * as client from "../../../client";
-import { Quiz } from '../../../types/types';
+import { Question, Quiz } from '../../../types/types';
+import { FaTrash, FaTrashAlt } from 'react-icons/fa';
 
 interface QuestionEditorProps {
     // Add any necessary props here
@@ -14,11 +15,11 @@ const QuestionEditor: React.FC<QuestionEditorProps> = () => {
     const API_BASE = process.env.REACT_APP_API_BASE;
 
     const [quizTitle, setQuizTitle] = useState('');
-    const [questions, setQuestions] = useState([] as any);
+    const [questions, setQuestions] = useState([]);
 
     const handleQuizTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setQuizTitle(e.target.value);
-        setQuiz({...quiz, title: e.target.value});
+        setQuiz({ ...quiz, title: e.target.value });
     };
 
     const handleQuestionChange = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,6 +46,102 @@ const QuestionEditor: React.FC<QuestionEditorProps> = () => {
         }
     };
 
+    const questionHeadRender = (question: Question) => {
+        return <div>
+            <div className='question-header'>
+                <input className='enter-box' type="text" id="title" value={'INCORPERATE TITLES ON SERVER SIDE'} />
+                <select className='enter-box' id="questionType">
+                    <option selected={question.question_type === 1 ? true : false} value="Quizzes">Multiple Choice</option>
+                    <option selected={question.question_type === 2 ? true : false} value="Exams">True/False</option>
+                    <option selected={question.question_type === 3 ? true : false} value="Assignments">Fill in the Blank</option>
+                </select>
+                <div className='float-end'>
+                    pts: <input className='enter-box point' type='number' id='points' min={0} defaultValue={question.points} />
+                </div>
+
+            </div>
+
+            <div className='question-body'>
+                <br />
+                <textarea className='enter-box question-box' id='description' value={question.description}></textarea>
+
+                {questionRender(question)}
+
+                <div className='save-bar'>
+                    <div>
+                        <button>Cancel</button>
+                        <button className='btn-save q-btn'>Update Question</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    }
+
+    const questionRender = (question: Question) => {
+        switch (question.question_type) {
+            // Multiple Choice
+            case 1:
+                return <div className='ans-container'>
+                    Answers: {question.answers.map((answer, index) => (
+                        <div className='mult-choice' key={index}>
+                            <input defaultChecked={question.correct.includes(answer) ? true : false} type='radio' name={question._id} />
+                            <label className='mult-choice-label' htmlFor={question._id}>
+                                {question.correct.includes(answer) ? (<text className='correct'>Correct Answer: </text>)
+                                    : (<text>Possible Answer: </text>)}
+                                <input className='enter-box mult-choice-ans' type="text" id="title" defaultValue={String(answer)} />
+                            </label>
+                            <button className='btn-answer'><FaTrashAlt /></button>
+                        </div>
+                    ))}
+
+                    <button className='btn-answer'>+ New Answer</button>
+
+                </div>
+
+            // True or False
+            case 2:
+                return <div className='ans-container'>
+                    Answers:
+
+                    <div className='mult-choice'>
+                        <div>
+                            <input defaultChecked={question.correct.includes('true') ? true : false} type='radio' name={question._id} />
+                            <label className='mult-choice-label' htmlFor={question._id}>
+                                {question.correct.includes('true') ? (<text className='correct'>True</text>)
+                                    : (<text>True</text>)}
+                            </label>
+                        </div>
+
+                        <div>
+                            <input defaultChecked={question.correct.includes('false') ? true : false} type='radio' name={question._id} />
+                            <label className='mult-choice-label' htmlFor={question._id}>
+                                {question.correct.includes('false') ? (<text className='correct'>False</text>)
+                                    : (<text>False</text>)}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+            // Fill in the Blank
+            case 3:
+                return <div className='ans-container'>
+                    Possible Correct Answers: {question.correct.map((answer, index) => (
+                        <div key={index}>
+                            {index + 1}
+                            <input className='enter-box mult-choice-ans' type="text" id="title" defaultValue={String(answer)} />
+                            <button className='btn-answer'><FaTrashAlt /></button>
+                        </div>
+                    ))}
+
+                    <button className='btn-answer'>+ New Answer</button>
+                </div>
+
+            default:
+                return
+        }
+    }
+
     const { pathname } = useLocation();
 
     useEffect(() => {
@@ -60,26 +157,25 @@ const QuestionEditor: React.FC<QuestionEditorProps> = () => {
     if (!quiz) {
         return <div>Loading quiz details...</div>;
     }
-    
+
     return (
         <div>
             <QuizNav />
             <h1>Question Editor</h1>
-            <label htmlFor="quizTitle">Quiz Title:</label>
-            <input type="text" id="quizTitle" placeholder={quiz.title} value={quiz.title} onChange={handleQuizTitleChange} />
 
-            <h2>Quiz Info:</h2>
-            
+            <button className='btn-link' onClick={addQuestion}>Add Question</button>
+
+            <button className='btn-link btn-save mult-choice-label' onClick={updateQuiz}>Update Quiz</button>
+
             {quiz.questions.map((question, index) => (
-                <div key={index}>
-                    <input type="text" value={question.description} onChange={(e) => handleQuestionChange(index, e)} />
-                    <button onClick={() => removeQuestion(index)}>Remove</button>
+                <div key={index} className='question-container'>
+
+                    <h1>Question {index + 1}:</h1>
+
+                    {questionHeadRender(question)}
+
                 </div>
             ))}
-
-            <button onClick={addQuestion}>Add Question</button>
-
-            <button onClick={updateQuiz}>Update Quiz</button>
         </div>
     );
 };

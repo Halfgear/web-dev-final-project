@@ -109,6 +109,10 @@ hr {
     background-color: red;
 }
 
+.q-btn {
+    margin-left: 10px;
+}
+
 .enter-box{
     padding: 5px;
     position: relative;
@@ -150,4 +154,63 @@ hr {
 
 .time {
     width: 20%;
+}
+
+.question-header {
+    display: inline-block;
+    width: 50%;
+    border: gray;
+    border-style: solid;
+    background-color: lightgray;
+    padding-bottom: 20px;
+    padding-top: 10px;
+}
+
+.question-body {
+    
+    width: 50%;
+    border: gray;
+    border-width: 1px;
+    border-style: solid;
+}
+
+.point {
+    width: 50px;
+    text-align: center;
+}
+
+.correct {
+    color: #28a745;
+}
+
+.mult-choice {
+    width: auto;
+    margin-left: 10px;
+}
+
+.btn-answer {
+    border: none;
+    background-color: white;
+    color: red;
+}
+
+.mult-choice-label {
+    margin-left: 10px;
+}
+
+.mult-choice-ans {
+    display: inline-block;
+    margin: 10px;
+}
+
+.ans-container {
+    padding: 10px;
+}
+
+.question-container {
+    margin-bottom: 20px;
+}
+
+.question-box {
+    width: 90%;
 }
