@@ -18,7 +18,7 @@ function QuizPreview() {
     const questionHeadRender = (question: Question) => {
         return <div>
             <div className='question-header'>
-                MAKE QUIZ TITLE
+                {question.title}
                 <div className='float-end'>
                     {question.points} pts
                 </div>
@@ -27,7 +27,7 @@ function QuizPreview() {
 
             <div className='question-body'>
                 <br />
-                {question.description}
+                <span dangerouslySetInnerHTML={{__html: question.description}}></span>
 
                 {questionRender(question)}
             </div>
@@ -83,6 +83,20 @@ function QuizPreview() {
         }
     }
 
+    function convertToPlain(html: string){
+
+        // Create a new div element
+        var tempDivElement = document.createElement("div");
+    
+        // Set the HTML content with the given value
+        tempDivElement.innerHTML = html;
+
+        console.log(tempDivElement.textContent);
+    
+        // Retrieve the text property of the element 
+        return tempDivElement.textContent || tempDivElement.innerText || "";
+    }
+
     useEffect(() => {
         // Fetch quiz details from API using quizId
         // Replace the API_URL with your actual API endpoint
@@ -103,7 +117,7 @@ function QuizPreview() {
             <div>
                 <div>
                     <h2>{quiz.title}</h2>
-                    <p>{quiz.description}</p>
+                    <span dangerouslySetInnerHTML={{__html: quiz.description}}></span>
                     <p>{quiz.points} points</p>
                     <p>Time limit: {quiz.timeLimit} minutes</p>
                     <p>Due: {formatDate(quiz.dueDate)}</p>

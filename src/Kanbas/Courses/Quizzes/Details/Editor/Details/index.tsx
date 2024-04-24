@@ -250,9 +250,6 @@ export function QuizEditor() {
                 <Link to={quizListScreen}>
                     <button className="btn-link" >Cancel</button>
                 </Link>
-                {/**
-                 * ADD PUBLISH FEATURE BELOW
-                 */}
                 <Link to={quizListScreen}>
                     <button className="btn-link" onClick={publishAndUpdate}>Save and Publish</button>
                 </Link>

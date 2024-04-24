@@ -177,3 +177,7 @@ hr {
 .q-circle {
     padding-bottom: 3px;
 }
+
+.blank {
+    all: unset;
+}

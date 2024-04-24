@@ -50,11 +50,11 @@ export function QuestionEditor() {
     const questionHeadRender = (question: Question) => {
         return <div>
             <div className='question-header'>
-                <input className='enter-box' type="text" id="title" value={'INCORPERATE TITLES ON SERVER SIDE'} />
+                <input className='enter-box' type="text" id="title" value={question.title} />
                 <select className='enter-box' id="questionType">
-                    <option selected={question.question_type === 1 ? true : false} value="Quizzes">Multiple Choice</option>
-                    <option selected={question.question_type === 2 ? true : false} value="Exams">True/False</option>
-                    <option selected={question.question_type === 3 ? true : false} value="Assignments">Fill in the Blank</option>
+                    <option selected={question.question_type === 1 ? true : false} value="Mult">Multiple Choice</option>
+                    <option selected={question.question_type === 2 ? true : false} value="TF">True/False</option>
+                    <option selected={question.question_type === 3 ? true : false} value="FillInBlank">Fill in the Blank</option>
                 </select>
                 <div className='float-end'>
                     pts: <input className='enter-box point' type='number' id='points' min={0} defaultValue={question.points} />
