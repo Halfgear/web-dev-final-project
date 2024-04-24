@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router';
 import { createQuiz, findCourseQuizzes, deleteQuiz, updateQuiz } from './client';
 import { Link } from 'react-router-dom';
 import { Quiz } from './types/types';
-import { formatDate } from './utils';
+import { calculateTotalPoints, formatDate } from './utils';
 import './index.css';
 
 function QuizList() {
@@ -23,7 +23,6 @@ function QuizList() {
         title: 'New Quiz',
         description: 'Description of the quiz',
         quizType: 'Standard',
-        points: 0,
         assignmentGroup: '',
         shuffleAnswers: false,
         timeLimit: 20, // in minutes
@@ -124,7 +123,7 @@ function QuizList() {
                                         {getAvailabilityStatus(quiz)}
                                     </span> |
                                     Due {formatDate(quiz.dueDate)} |
-                                    Points: {quiz.points} | {quiz.questions.length} Questions
+                                    Points: {calculateTotalPoints(quiz.questions)} | {quiz.questions.length} Questions
                                 </div>
                             </div>
                         </Link>

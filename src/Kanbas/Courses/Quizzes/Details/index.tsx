@@ -5,10 +5,7 @@ import { Link } from 'react-router-dom';
 import { Quiz } from '../types/types';
 import { findQuizById, updateQuiz } from '../client';
 import { FaEdit } from 'react-icons/fa';
-
-const calculateTotalPoints = (questions: any) => {
-    return questions.reduce((sum: any, question: any) => sum + question.points, 0);
-};
+import { calculateTotalPoints } from '../utils';
 
 const QuizDetails = () => {
     const [quiz, setQuiz] = useState<any>(null);
@@ -18,14 +15,7 @@ const QuizDetails = () => {
     const fetchQuizDetails = async () => {
         try {
             const quizData = await findQuizById(quizId);
-            if (quizData && quizData.questions) {
-                const totalPoints = calculateTotalPoints(quizData.questions);
-                quizData.points = totalPoints;
-                setQuiz(quizData);
-            }
-            if (quizData.points !== quiz.points) {
-                await updateQuiz(quizData);
-            }
+            setQuiz(quizData);
         } catch (error) {
             console.error('Failed to fetch quiz:', error);
         }
@@ -71,7 +61,7 @@ const QuizDetails = () => {
                     </tr>
                     <tr>
                         <td className='list-bold'><b>Points</b></td>
-                        <td>{quiz.points}</td>
+                        <td>{calculateTotalPoints(quiz.questions)}</td>
                     </tr>
                     <tr>
                         <td className='list-bold'><b>Assignment Group</b></td>

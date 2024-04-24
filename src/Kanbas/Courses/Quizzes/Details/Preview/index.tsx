@@ -11,14 +11,13 @@ function QuizPreview() {
     const [quiz, setQuiz] = useState<Quiz>(null as any);
     const [curQuestion, setCurQuestion] = useState(0)
     const { quizId } = useParams();
-    const [totalPoints, setTotalPoints] = useState(0);
 
     const questionHeadRender = (question: Question) => {
         return <div>
             <div className='question-header'>
                 {question.title}
                 <div className='float-end'>
-                    {question.points} pts
+                    {calculateTotalPoints(quiz.questions)} pts
                 </div>
 
             </div>
@@ -85,10 +84,6 @@ function QuizPreview() {
         try {
             const quizData = await findQuizById(quizId);
             setQuiz(quizData);
-            if (quizData.questions) {
-                const total = calculateTotalPoints(quizData.questions);
-                setTotalPoints(total);
-            }
         } catch (error) {
             console.error('Failed to fetch quiz:', error);
         }
@@ -109,7 +104,7 @@ function QuizPreview() {
                 <div>
                     <h2>{quiz.title}</h2>
                     <span dangerouslySetInnerHTML={{ __html: quiz.description }}></span>
-                    <p>{totalPoints} points</p>
+                    <p>{calculateTotalPoints(quiz.questions)} points</p>
                     <p>Time limit: {quiz.timeLimit} minutes</p>
                     <p>Due: {formatDate(quiz.dueDate)}</p>
                 </div>

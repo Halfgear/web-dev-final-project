@@ -28,10 +28,6 @@ export function QuizEditor() {
         setQuiz({ ...quiz, quizType: e.target.value });
     };
 
-    const handlePointTypeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setQuiz({ ...quiz, points: Number(e.target.value) });
-    };
-
     const handleAssGroupChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setQuiz({ ...quiz, assignmentGroup: e.target.value });
     };
@@ -121,7 +117,6 @@ export function QuizEditor() {
     const fetchQuizDetails = async () => {
         try {
             const quizData = await findQuizById(quizId);
-            console.log(quizData.questions)
             setQuiz(quizData);
             if (quizData.questions) {
                 const total = calculateTotalPoints(quizData.questions);

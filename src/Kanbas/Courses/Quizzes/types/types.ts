@@ -14,7 +14,6 @@ export interface Quiz {
     title: string;
     description: string;
     quizType: string;
-    points: number;
     assignmentGroup: string;
     shuffleAnswers: boolean;
     timeLimit: number;
