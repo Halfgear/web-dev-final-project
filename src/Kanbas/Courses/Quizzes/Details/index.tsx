@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { Quiz } from '../types/types';
 import { updateQuiz } from '../client';
 import { FaEdit } from 'react-icons/fa';
+import { findQuizById } from '../client';
 interface QuizDetailsProps {
     quizId: string;
 }
@@ -12,16 +13,19 @@ interface QuizDetailsProps {
 const QuizDetails = () => {
     const [quiz, setQuiz] = useState<any>(null);
     const { quizId } = useParams();
-    const API_BASE = process.env.REACT_APP_API_BASE;
 
     useEffect(() => {
-        // Fetch quiz details from API using quizId
-        // Replace the API_URL with your actual API endpoint
-        fetch(`${API_BASE}/api/quizzes/${quizId}`)
-            .then((response) => response.json())
-            .then((data) => setQuiz(data))
-            .catch((error) => console.error(error));
-    }, [quizId]);
+        const fetchQuizDetails = async () => {
+          try {
+            const quizData = await findQuizById(quizId);
+            setQuiz(quizData); // Set the quiz data into state
+          } catch (error) {
+            console.error('Failed to fetch quiz:', error); 
+          }
+        };
+    
+        fetchQuizDetails(); // Call the async function to fetch quiz details
+      }, [quizId]); 
 
     if (!quiz) {
         return <div>Loading quiz details...</div>;
