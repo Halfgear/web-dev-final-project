@@ -1,5 +1,6 @@
 export interface Question {
     _id: string;
+    title: string;
     question_type: number;
     points: number;
     description: string;

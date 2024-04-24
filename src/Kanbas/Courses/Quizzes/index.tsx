@@ -26,7 +26,7 @@ function QuizList() {
         points: 0,
         assignmentGroup: '',
         shuffleAnswers: false,
-        timeLimit: 60, // Default time limit in minutes
+        timeLimit: 60, // in minutes
         published: false,
         multipleAttempts: true,
         showCorrectAnswers: 'After Last Attempt',
