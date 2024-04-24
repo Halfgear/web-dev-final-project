@@ -71,7 +71,6 @@ function QuizList() {
         const now = new Date();
         const availableDate = new Date(quiz.availableDate);
         const untilDate = new Date(quiz.untilDate);
-
         if (now > untilDate) {
             return 'Closed';
         } else if (now >= availableDate && now <= untilDate) {
