@@ -83,20 +83,6 @@ function QuizPreview() {
         }
     }
 
-    function convertToPlain(html: string){
-
-        // Create a new div element
-        var tempDivElement = document.createElement("div");
-    
-        // Set the HTML content with the given value
-        tempDivElement.innerHTML = html;
-
-        console.log(tempDivElement.textContent);
-    
-        // Retrieve the text property of the element 
-        return tempDivElement.textContent || tempDivElement.innerText || "";
-    }
-
     useEffect(() => {
         // Fetch quiz details from API using quizId
         // Replace the API_URL with your actual API endpoint
