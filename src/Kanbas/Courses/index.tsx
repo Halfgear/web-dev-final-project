@@ -36,7 +36,13 @@ function Courses() {
     return (
         <div className="courses-container">
             <h1><HiMiniBars3 className="react-icon" />  {course?._id} {course?.name}
-                <span className="path">{locationNew.map(locationNew => <> <HiArrowRight />  {locationNew} </>)}</span></h1>
+                <span className="path">
+                    {locationNew.map((loc, index) => (
+                        <span key={index}> {/* Adding a unique key */}
+                            <HiArrowRight /> {loc}
+                        </span>
+                    ))}
+                </span></h1>
             <hr />
             <CourseNavigation />
             <div>
