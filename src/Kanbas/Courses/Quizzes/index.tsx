@@ -26,7 +26,7 @@ function QuizList() {
         points: 0,
         assignmentGroup: '',
         shuffleAnswers: false,
-        timeLimit: 60, // in minutes
+        timeLimit: 20, // in minutes
         published: false,
         multipleAttempts: true,
         showCorrectAnswers: 'After Last Attempt',
@@ -45,6 +45,7 @@ function QuizList() {
             const createdQuiz = await createQuiz(newQuiz); // Assume createQuiz is an async function that posts the quiz to your backend and returns the newly created quiz
             if (createdQuiz) {
                 setQuizzes(prevQuizzes => [...prevQuizzes, createdQuiz]);
+                navigate(`./${createdQuiz._id}`);
             }
         } catch (error) {
             console.error('Failed to create new quiz', error);
