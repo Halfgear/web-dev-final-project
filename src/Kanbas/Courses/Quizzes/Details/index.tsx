@@ -3,25 +3,36 @@ import { useParams } from "react-router";
 import "./index.css";
 import { Link } from 'react-router-dom';
 import { Quiz } from '../types/types';
-import { updateQuiz } from '../client';
+import { findQuizById, updateQuiz } from '../client';
 import { FaEdit } from 'react-icons/fa';
-import { findQuizById } from '../client';
+
+const calculateTotalPoints = (questions: any) => {
+    return questions.reduce((sum: any, question: any) => sum + question.points, 0);
+};
 
 const QuizDetails = () => {
     const [quiz, setQuiz] = useState<any>(null);
     const { quizId } = useParams();
 
-    useEffect(() => {
-        const fetchQuizDetails = async () => {
-            try {
-                const quizData = await findQuizById(quizId);
-                setQuiz(quizData); // Set the quiz data into state
-            } catch (error) {
-                console.error('Failed to fetch quiz:', error);
+    //fetch and update quiz details if needed
+    const fetchQuizDetails = async () => {
+        try {
+            const quizData = await findQuizById(quizId);
+            if (quizData && quizData.questions) {
+                const totalPoints = calculateTotalPoints(quizData.questions);
+                quizData.points = totalPoints;
+                setQuiz(quizData);
             }
-        };
+            if (quizData.points !== quiz.points) {
+                await updateQuiz(quizData);
+            }
+        } catch (error) {
+            console.error('Failed to fetch quiz:', error);
+        }
+    };
 
-        fetchQuizDetails(); // Call the async function to fetch quiz details
+    useEffect(() => {
+        fetchQuizDetails();
     }, [quizId]);
 
     if (!quiz) {

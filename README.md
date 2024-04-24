@@ -1,5 +1,14 @@
 # TODOS
-- Functionality for Question Editor Screen (Additionally re-route quiz editor screen to be what the quiz preview screen is PLUS an edit button for each question that turns a question into how it is formatted on the current Question Editor Screen with blanks and stuff to edit)
+Quiz Details Screen:
+Quiz Points should be the sum of all the question's points
+
+Quiz Editor Screen:
+Points can only be VIEWED. Quiz points change when the questions screen is updated.
+
+Quiz Questions Editor Screen:
+Initially shows the questions a la Preview Mode
+Clicking EDIT next to a question loads the question like it looks now
+Functionality when buttons are hit when a question is in EDIT mode
 
 # Getting Started with Create React App
 

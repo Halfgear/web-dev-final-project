@@ -21,3 +21,7 @@ export function formatDate(dateString: string) {
     return `${month} ${day} at ${formattedHour}:${minute} ${ampm}`;
   }
   
+
+export function calculateTotalPoints(questions: any){
+    return questions.reduce((sum: any, question: any) => sum + question.points, 0);
+};
