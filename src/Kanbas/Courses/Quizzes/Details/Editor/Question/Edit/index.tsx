@@ -4,7 +4,6 @@ import { findQuizById, updateQuiz } from '../../../../client';
 import { Question, Quiz } from '../../../../types/types';
 import { FaTrashAlt } from 'react-icons/fa';
 import { Editor } from '@tinymce/tinymce-react';
-
 export function EditQuestion() {
     const [quiz, setQuiz] = useState<Quiz | null>(null);
     const { quizId, questionId } = useParams();

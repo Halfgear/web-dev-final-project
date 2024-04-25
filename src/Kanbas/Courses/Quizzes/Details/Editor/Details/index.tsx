@@ -3,7 +3,6 @@ import { Link, useLocation, useParams } from 'react-router-dom';
 import QuizNav from '../Nav';
 import { findQuizById, updateQuiz } from "../../../client";
 import { Quiz } from '../../../types/types';
-import '../../index.css';
 import { Editor } from '@tinymce/tinymce-react';
 import { calculateTotalPoints } from '../../../utils';
 

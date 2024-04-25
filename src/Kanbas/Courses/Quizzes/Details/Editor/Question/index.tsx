@@ -5,7 +5,6 @@ import { findQuizById } from '../../../client';
 import { Question, Quiz } from '../../../types/types';
 import { FaQuestionCircle } from 'react-icons/fa';
 import { calculateTotalPoints, formatDate } from '../../../utils';
-import './index.css';
 
 export function QuestionEditor() {
     const [quiz, setQuiz] = useState<Quiz | null>(null);
