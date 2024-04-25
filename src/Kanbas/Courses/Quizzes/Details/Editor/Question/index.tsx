@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import QuizNav from '../Nav';
-import { findQuizById } from '../../../client';
+import { findQuizById, updateQuiz } from '../../../client';
 import { Question, Quiz } from '../../../types/types';
 import { FaQuestionCircle } from 'react-icons/fa';
 import { calculateTotalPoints, formatDate } from '../../../utils';
@@ -11,6 +11,16 @@ export function QuestionEditor() {
     const [curQuestion, setCurQuestion] = useState(0);
     const { quizId } = useParams();
     const navigate = useNavigate();
+
+    const defaultQuestion: Question = {
+        _id: Math.random().toString(36).substring(7),
+        title: 'default question title',
+        question_type: 3,
+        points: 1,
+        description: 'description here',
+        answers: [],
+        correct: [],
+    };
     const fetchQuizDetails = async () => {
         try {
             const quizData = await findQuizById(quizId);
@@ -23,6 +33,36 @@ export function QuestionEditor() {
     useEffect(() => {
         fetchQuizDetails();
     }, [quizId]);
+
+    const addDefaultQuestion = async () => {
+        if (quiz) {
+            const updatedQuiz = { ...quiz, questions: [...quiz.questions, defaultQuestion] };
+            setQuiz(updatedQuiz);
+        }
+    };
+
+    const removeQuestion = async (questionId: string) => {
+        if (quiz) {
+            const updatedQuiz = {
+                ...quiz,
+                questions: quiz.questions.filter((question) => question._id !== questionId),
+            };
+            setQuiz(updatedQuiz);
+            setCurQuestion(0);
+        }
+    }
+
+    const saveQuestion = async () => {
+        if (quiz) {
+            try {
+                await updateQuiz(quiz);
+                console.log("Quiz updated");
+                navigate(-1);
+            } catch (err) {
+                console.error("Error updating quiz:", err);
+            }
+        }
+    }
 
     const questionHeadRender = (question: Question) => (
         <div>
@@ -89,7 +129,10 @@ export function QuestionEditor() {
         }
     };
 
-    const handleEdit = (questionId: string) => {
+    const handleEdit = async (questionId: string) => {
+        if (quiz) {
+            await updateQuiz(quiz);
+        }
         // Navigate to the EditQuestion page with the quizId and questionId
         navigate(`./${questionId}/Edit`)
     };
@@ -123,6 +166,18 @@ export function QuestionEditor() {
                                     onClick={() => handleEdit(question._id)}
                                 >
                                     Edit
+                                </button>
+                                <button
+                                    className="btn-edit"
+                                    onClick={() => removeQuestion(question._id)}
+                                >
+                                    Delete
+                                </button>
+                                <button className="btn-edit" onClick={addDefaultQuestion}>
+                                    Add Question
+                                </button>
+                                <button className="btn-edit" onClick={saveQuestion}>
+                                    Save
                                 </button>
                             </div>
                         ) : null}
