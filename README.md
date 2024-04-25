@@ -1,8 +1,6 @@
 # TODOS
-Quiz Questions Editor Screen:
-Initially shows the questions a la Preview Mode
-Clicking EDIT next to a question loads the question like it looks now
-Functionality when buttons are hit when a question is in EDIT mode
+- Add Answer button on Multiple Choice Questions
+- Reapply the styles for the Quizzes/Details/Editor/Question/Edit. it is missing the correct answer signs now.
 
 # Getting Started with Create React App
 
