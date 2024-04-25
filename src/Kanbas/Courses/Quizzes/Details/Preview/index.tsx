@@ -64,7 +64,7 @@ function QuizPreview() {
             // Fill in the Blank
             case 3:
                 return <div className='ans-container'>
-                    {question.correct.map((answer, index) => (
+                    {question.answers.map((answer, index) => (
                         <div className="q-space" key={index}>
                             <hr className="question-hr" />
                             {index + 1}
@@ -115,7 +115,9 @@ function QuizPreview() {
                         {index === curQuestion ? (
                             <div>
                                 {questionHeadRender(question)}
+                                
                             </div>
+                            
                         )
                             : ('')}
                     </div>
@@ -130,7 +132,7 @@ function QuizPreview() {
                             <FaQuestionCircle className="q-circle" />
                             {index === curQuestion ? (<b>Question: {index + 1}</b>)
                                 : (<text>Question: {index + 1}</text>)}
-
+                            
                         </button>
                     </div>
                 ))}
