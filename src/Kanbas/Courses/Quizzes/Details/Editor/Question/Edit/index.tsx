@@ -159,7 +159,7 @@ export function EditQuestion() {
                 return (
                     <div className="ans-container">
                         Answers:
-                        {question.correct.map((answer, index) => (
+                        {question.answers.map((answer, index) => (
                             <div key={index}>
                                 {index + 1}
                                 <input
