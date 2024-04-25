@@ -1,10 +1,4 @@
 # TODOS
-Quiz Details Screen:
-Quiz Points should be the sum of all the question's points
-
-Quiz Editor Screen:
-Points can only be VIEWED. Quiz points change when the questions screen is updated.
-
 Quiz Questions Editor Screen:
 Initially shows the questions a la Preview Mode
 Clicking EDIT next to a question loads the question like it looks now

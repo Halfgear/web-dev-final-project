@@ -21,11 +21,9 @@ function QuizPreview() {
                 </div>
 
             </div>
-
             <div className='question-body'>
                 <br />
                 <span dangerouslySetInnerHTML={{ __html: question.description }}></span>
-
                 {questionRender(question)}
             </div>
 
