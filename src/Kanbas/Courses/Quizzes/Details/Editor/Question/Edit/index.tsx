@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { findQuizById, updateQuiz } from '../../../../client';
+import { useNavigate, useParams } from 'react-router-dom';
+import { findQuizById, updateQuestion } from '../../../../client';
 import { Question, Quiz } from '../../../../types/types';
-import { FaTrashAlt } from 'react-icons/fa';
 import { Editor } from '@tinymce/tinymce-react';
+import { FaTrashAlt } from 'react-icons/fa';
+
 export function EditQuestion() {
     const [quiz, setQuiz] = useState<Quiz | null>(null);
+    const [question, setQuestion] = useState<Question | null>(null);
     const { quizId, questionId } = useParams();
+    const navigate = useNavigate();
 
     const fetchQuiz = async () => {
         try {
             const quizData = await findQuizById(quizId);
             setQuiz(quizData);
+            setQuestion(quizData.questions.find((q: Question) => q._id === questionId));
         } catch (err) {
             console.error('Error fetching quiz:', err);
         }
@@ -19,87 +23,48 @@ export function EditQuestion() {
 
     useEffect(() => {
         fetchQuiz();
-    }, [quizId]);
+    }, [quizId, questionId]);
 
-    if (!quiz) {
-        return <div>Loading quiz details...</div>;
+    if (!quiz || !question) {
+        return <div>Loading...</div>;
     }
 
-    // Find the specific question using the questionId
-    const question = quiz.questions.find(q => q._id === questionId);
-
-    if (!question) {
-        return <div>Question not found</div>;
-    }
+    const handleQuestionTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const newType = parseInt(e.target.value, 10);
+        const updatedQuestion = { ...question, question_type: newType };
+        setQuestion(updatedQuestion);
+    };
 
     const handleQuizTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const updatedQuiz = { ...quiz, title: e.target.value };
-        setQuiz(updatedQuiz);
+        const updatedQuestion = { ...question, title: e.target.value };
+        setQuestion(updatedQuestion);
     };
 
     const handleEditorChange = (content: any) => {
-        const updatedQuiz = { ...quiz, description: content };
-        setQuiz(updatedQuiz);
+        const updatedQuestion = { ...question, description: content };
+        setQuestion(updatedQuestion);
     };
 
-    const handleUpdateQuiz = async () => {
+    const handlePointChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const updatedQuestion = { ...question, points: Number(e.target.value) };
+        setQuestion(updatedQuestion);
+    };
+
+    const handleUpdateQuestion = async () => {
         try {
-            await updateQuiz(quiz);
-            console.log("Quiz updated");
+            await updateQuestion(quizId, question);
+            console.log("Question updated");
+            navigate(-1);
         } catch (err) {
-            console.error("Error updating quiz:", err);
+            console.error("Error updating question:", err);
         }
     };
 
-    const questionHeadRender = (question: Question) => {
-        return (
-            <div>
-                <div className="question-header">
-                    <input
-                        className="enter-box"
-                        type="text"
-                        id="title"
-                        value={question.title}
-                        onChange={(e) => handleQuizTitleChange(e)}
-                    />
-                    <select className="enter-box" id="questionType">
-                        <option selected={question.question_type === 1} value="Mult">Multiple Choice</option>
-                        <option selected={question.question_type === 2} value="TF">True/False</option>
-                        <option selected={question.question_type === 3} value="FillInBlank">Fill in the Blank</option>
-                    </select>
-                    <div className="float-end">
-                        pts:
-                        <input
-                            className="enter-box point"
-                            type="number"
-                            min={0}
-                            defaultValue={question.points}
-                        />
-                    </div>
-                </div>
-                <div className="question-body">
-                    <Editor
-                        apiKey='ayfauai55c5w2b1fo820wvi93k42dh0irg5jz7qz9ai3kdw2'
-                        init={{
-                            plugins: 'autolink markdown lists link image media table wordcount',
-                            toolbar: 'undo redo | bold italic underline strikethrough | numlist bullist | link image media',
-                            height: 200,
-                        }}
-                        value={question.description}
-                        onEditorChange={handleEditorChange}
-                    />
-                    {questionRender(question)}
-                </div>
-            </div>
-        );
-    };
-
-    const questionRender = (question: Question) => {
+    const renderAnswerOptions = () => {
         switch (question.question_type) {
             case 1: // Multiple Choice
                 return (
                     <div className="ans-container">
-                        Answers:
                         {question.answers.map((answer, index) => (
                             <div className="mult-choice" key={index}>
                                 <input
@@ -130,9 +95,7 @@ export function EditQuestion() {
                                 type="radio"
                                 name={question._id}
                             />
-                            <label className="mult-choice-label">
-                                {question.correct.includes('true') ? 'True' : 'True'}
-                            </label>
+                            <label className="mult-choice-label">True</label>
                         </div>
 
                         <div>
@@ -141,9 +104,7 @@ export function EditQuestion() {
                                 type="radio"
                                 name={question._id}
                             />
-                            <label className="mult-choice-label">
-                                {question.correct.includes('false') ? 'False' : 'False'}
-                            </label>
+                            <label className="mult-choice-label">False</label>
                         </div>
                     </div>
                 );
@@ -151,7 +112,6 @@ export function EditQuestion() {
             case 3: // Fill in the Blank
                 return (
                     <div className="ans-container">
-                        Possible Correct Answers:
                         {question.correct.map((answer, index) => (
                             <div key={index}>
                                 <input
@@ -166,24 +126,65 @@ export function EditQuestion() {
                 );
 
             default:
-                return null;
+                return <div>Unknown question type</div>;
         }
     };
 
     return (
         <div>
             <h1>Question Editor</h1>
-
-            <button className="btn-link btn-save" onClick={handleUpdateQuiz}>
+            <button className="btn-link btn-save" onClick={handleUpdateQuestion}>
                 Update Quiz
             </button>
 
             <div className="question-container">
                 <h2>Question Editor</h2>
-                {questionHeadRender(question)}
+                <div className='question-header'>
+                    <input
+                        className="enter-box"
+                        type="text"
+                        id="title"
+                        value={question.title}
+                        onChange={handleQuizTitleChange}
+                    />
+                    <select
+                        className="enter-box"
+                        id="questionType"
+                        value={question.question_type}
+                        onChange={handleQuestionTypeChange}
+                    >
+                        <option value={1}>Multiple Choice</option>
+                        <option value={2}>True/False</option>
+                        <option value={3}>Fill in the Blank</option>
+                    </select>
+                    <div className="float-end">
+                        pts:
+                        <input
+                            className="enter-box point"
+                            type="number"
+                            min={0}
+                            defaultValue={question.points}
+                            onChange={handlePointChange}
+                        />
+                    </div>
+                </div>
+                <div className="question-body">
+                    <Editor
+                        apiKey='ayfauai55c5w2b1fo820wvi93k42dh0irg5jz7qz9ai3kdw2'
+                        init={{
+                            plugins: 'autolink markdown lists link image media table wordcount',
+                            toolbar: 'undo redo | bold italic underline strikethrough | numlist bullist | link image media',
+                            height: 200,
+                        }}
+                        value={question.description}
+                        onEditorChange={handleEditorChange}
+                    />
+                    {renderAnswerOptions()}
+                </div>
             </div>
         </div>
     );
 }
 
 export default EditQuestion;
+
