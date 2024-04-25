@@ -17,7 +17,7 @@ function QuizPreview() {
             <div className='question-header'>
                 {question.title}
                 <div className='float-end'>
-                    {calculateTotalPoints(quiz.questions)} pts
+                    {question.points} pts
                 </div>
 
             </div>
