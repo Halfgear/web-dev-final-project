@@ -112,6 +112,10 @@ export function QuizEditor() {
         setQuiz(updatedQuiz);
         handleupdateQuiz(updatedQuiz);
     }
+    
+    const noPublishAndUpdate = () => {
+        handleupdateQuiz(quiz);
+    }
 
     const fetchQuizDetails = async () => {
         try {
@@ -255,7 +259,7 @@ export function QuizEditor() {
                 </Link>
 
                 <Link to={quizDetailsScreen}>
-                    <button className="btn-link btn-save" onClick={publishAndUpdate}>Save</button>
+                    <button className="btn-link btn-save" onClick={noPublishAndUpdate}>Save</button>
                 </Link>
             </div>
 

@@ -1,15 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import React, { ChangeEvent, useEffect, useState } from 'react';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { findQuizById, updateQuestion } from '../../../../client';
 import { Question, Quiz } from '../../../../types/types';
 import { Editor } from '@tinymce/tinymce-react';
 import { FaTrashAlt } from 'react-icons/fa';
+import "../../../index.css";
 
 export function EditQuestion() {
     const [quiz, setQuiz] = useState<Quiz | null>(null);
     const [question, setQuestion] = useState<Question | null>(null);
     const { quizId, questionId } = useParams();
     const navigate = useNavigate();
+    const { pathname } = useLocation();
+    var questionDetailsScreen = pathname.substring(0, pathname.lastIndexOf("/"));
+    questionDetailsScreen = questionDetailsScreen.substring(0, questionDetailsScreen.lastIndexOf("/"));
+
 
     const fetchQuiz = async () => {
         try {
@@ -37,6 +42,36 @@ export function EditQuestion() {
 
     const handleQuizTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const updatedQuestion = { ...question, title: e.target.value };
+        setQuestion(updatedQuestion);
+    };
+
+    const handleQuizNewAnswer = () => {
+        let updatedQuestion: Question = { ...question };
+        const newAnswer = '';
+        updatedQuestion.answers.push(newAnswer);
+        setQuestion(updatedQuestion);
+    };
+
+    const handleQuizDeleteAnswer = (index: number) => {
+        let updatedQuestion: Question = { ...question };
+        console.log(index)
+        console.log(updatedQuestion.answers)
+        const newAnswers = updatedQuestion.answers.filter(x => updatedQuestion.answers.indexOf(x) !== index);
+        updatedQuestion = {...updatedQuestion, answers: newAnswers};
+        console.log(updatedQuestion.answers)
+        setQuestion(updatedQuestion);
+    };
+
+    const handleQuizChangeAnswer = (index: number, value: ChangeEvent<HTMLInputElement>) => {
+        let updatedQuestion: Question = { ...question };
+        updatedQuestion.answers[index] = value.target.value;
+        setQuestion(updatedQuestion);
+    };
+
+    const handleQuizChangeCorrectAnswer = (index: string) => {
+        let updatedQuestion: Question = { ...question };
+        updatedQuestion.correct = [];
+        updatedQuestion.correct.push(index);
         setQuestion(updatedQuestion);
     };
 
@@ -68,21 +103,30 @@ export function EditQuestion() {
                         {question.answers.map((answer, index) => (
                             <div className="mult-choice" key={index}>
                                 <input
+                                    id='index'
                                     defaultChecked={question.correct.includes(answer)}
                                     type="radio"
                                     name={question._id}
+                                    onChange={() => handleQuizChangeCorrectAnswer(index.toString())}
                                 />
-                                <label className="mult-choice-label">
-                                    {question.correct.includes(answer) ? 'Correct Answer' : 'Possible Answer'}
+                                <label className={(question.correct.includes(index.toString()) ? 'correct mult-choice-label' : 'mult-choice-label')}>
+
+                                    {question.correct.includes(index.toString()) ? 'Correct Answer' : 'Possible Answer'}
+
                                     <input
-                                        className="enter-box mult-choice-ans"
+                                        id={'MultChoiceIDLabel' + index}
+                                        className={"enter-box mult-choice-ans"}
                                         type="text"
                                         defaultValue={String(answer)}
+                                        onChange={(e) => handleQuizChangeAnswer(index, e)}
                                     />
                                 </label>
-                                <button className="btn-answer"><FaTrashAlt /></button>
+                                <button className="btn-answer" onClick={() => handleQuizDeleteAnswer(index)}><FaTrashAlt /></button>
                             </div>
                         ))}
+                        <button className='btn-answer' onClick={() => handleQuizNewAnswer()}>
+                            + New Answer
+                        </button>
                     </div>
                 );
 
@@ -94,8 +138,9 @@ export function EditQuestion() {
                                 defaultChecked={question.correct.includes('true')}
                                 type="radio"
                                 name={question._id}
+                                onChange={() => handleQuizChangeCorrectAnswer('true')}
                             />
-                            <label className="mult-choice-label">True</label>
+                            <label className={(question.correct.includes('true') ? "correct mult-choice-label" : 'mult-choice-label')}>True</label>
                         </div>
 
                         <div>
@@ -103,8 +148,9 @@ export function EditQuestion() {
                                 defaultChecked={question.correct.includes('false')}
                                 type="radio"
                                 name={question._id}
+                                onChange={() => handleQuizChangeCorrectAnswer('false')}
                             />
-                            <label className="mult-choice-label">False</label>
+                            <label className={(question.correct.includes('false') ? 'correct mult-choice-label' : 'mult-choice-label')}>False</label>
                         </div>
                     </div>
                 );
@@ -112,16 +158,22 @@ export function EditQuestion() {
             case 3: // Fill in the Blank
                 return (
                     <div className="ans-container">
+                        Answers:
                         {question.correct.map((answer, index) => (
                             <div key={index}>
+                                {index + 1}
                                 <input
                                     className="enter-box mult-choice-ans"
                                     type="text"
                                     defaultValue={String(answer)}
+                                    onChange={(e) => handleQuizChangeAnswer(index, e)}
                                 />
-                                <button className="btn-answer"><FaTrashAlt /></button>
+                                <button className="btn-answer" onClick={() => handleQuizDeleteAnswer(index)}><FaTrashAlt /></button>
                             </div>
                         ))}
+                        <button className='btn-answer' onClick={() => handleQuizNewAnswer()}>
+                            + New Answer
+                        </button>
                     </div>
                 );
 
@@ -133,10 +185,6 @@ export function EditQuestion() {
     return (
         <div>
             <h1>Question Editor</h1>
-            <button className="btn-link btn-save" onClick={handleUpdateQuestion}>
-                Update Quiz
-            </button>
-
             <div className="question-container">
                 <h2>Question Editor</h2>
                 <div className='question-header'>
@@ -182,6 +230,14 @@ export function EditQuestion() {
                     {renderAnswerOptions()}
                 </div>
             </div>
+            <button className="btn-link btn-save question-edit-btn" onClick={handleUpdateQuestion}>
+                Update Question
+            </button>
+            <Link to={questionDetailsScreen}>
+                <button className="btn-link btn-save question-edit-btn">
+                    Cancel
+                </button>
+            </Link>
         </div>
     );
 }
