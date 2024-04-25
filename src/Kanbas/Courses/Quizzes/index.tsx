@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router';
 import { createQuiz, findCourseQuizzes, deleteQuiz, updateQuiz } from './client';
 import { Link } from 'react-router-dom';
 import { Quiz } from './types/types';
-import { formatDate } from './utils';
+import { calculateTotalPoints, formatDate } from './utils';
 import './index.css';
 
 function QuizList() {
@@ -23,10 +23,9 @@ function QuizList() {
         title: 'New Quiz',
         description: 'Description of the quiz',
         quizType: 'Standard',
-        points: 0,
         assignmentGroup: '',
         shuffleAnswers: false,
-        timeLimit: 60, // Default time limit in minutes
+        timeLimit: 20, // in minutes
         published: false,
         multipleAttempts: true,
         showCorrectAnswers: 'After Last Attempt',
@@ -45,6 +44,7 @@ function QuizList() {
             const createdQuiz = await createQuiz(newQuiz); // Assume createQuiz is an async function that posts the quiz to your backend and returns the newly created quiz
             if (createdQuiz) {
                 setQuizzes(prevQuizzes => [...prevQuizzes, createdQuiz]);
+                navigate(`./${createdQuiz._id}`);
             }
         } catch (error) {
             console.error('Failed to create new quiz', error);
@@ -71,7 +71,6 @@ function QuizList() {
         const now = new Date();
         const availableDate = new Date(quiz.availableDate);
         const untilDate = new Date(quiz.untilDate);
-
         if (now > untilDate) {
             return 'Closed';
         } else if (now >= availableDate && now <= untilDate) {
@@ -96,7 +95,7 @@ function QuizList() {
     const handlePublishToggle = async (quizId:string, quiz:Quiz) => {
         const updatedQuiz = { ...quiz, published: !quiz.published };
         try {
-            await updateQuiz(quizId, updatedQuiz);
+            await updateQuiz(updatedQuiz);
             setQuizzes(prevQuizzes => prevQuizzes.map(q => q._id === quiz._id ? updatedQuiz : q));
         } catch (error) {
             console.error('Failed to toggle publish status', error);
@@ -124,7 +123,7 @@ function QuizList() {
                                         {getAvailabilityStatus(quiz)}
                                     </span> |
                                     Due {formatDate(quiz.dueDate)} |
-                                    Points: {quiz.points} | {quiz.questions.length} Questions
+                                    Points: {calculateTotalPoints(quiz.questions)} | {quiz.questions.length} Questions
                                 </div>
                             </div>
                         </Link>

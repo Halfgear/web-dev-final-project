@@ -1,16 +1,3 @@
-.list-bold {
-    float: right;
-    margin-right: 10px;
-}
-
-tr.bordered {
-    border-bottom: 1px solid #000;
-}
-
-td.date {
-    padding-right: 20px;
-}
-
 hr {
     padding: 0px;
     margin: 0px;
@@ -30,49 +17,6 @@ hr {
     margin-right: 100px;
     gap: 10px; /* Space between buttons */
     padding: 10px; /* Optional padding for spacing */
-}
-
-/* Button base styling */
-.btn {
-    font-size: 16px;
-    font-weight: bold;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease-in-out;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* Published state styling */
-.btn-published {
-    background-color: #28a745; /* Green background */
-}
-
-.btn-published:hover {
-    background-color: #218838; /* Darker green on hover */
-}
-
-.btn-published:before {
-    content: '\2713'; /* Unicode check mark */
-    margin-right: 8px;
-}
-
-/* Unpublished state styling */
-.btn-unpublished {
-    background-color: #6c757d; /* Grey background */
-}
-
-.btn-unpublished:hover {
-    background-color: #5a6268; /* Darker grey on hover */
-}
-
-/* Additional styling to enhance the button's appearance */
-.btn:active {
-    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
 }
 
 /* Container holding buttons */
@@ -162,16 +106,18 @@ hr {
     border: gray;
     border-style: solid;
     background-color: lightgray;
-    padding-bottom: 20px;
+    padding-bottom: 10px;
     padding-top: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 .question-body {
-    
     width: 50%;
     border: gray;
     border-width: 1px;
     border-style: solid;
+    padding-left: 10px;
 }
 
 .point {
@@ -213,4 +159,38 @@ hr {
 
 .question-box {
     width: 90%;
+}
+
+.q-space {
+    margin-top: 5px;
+    padding-top: 5px;
+}
+
+.question-hr {
+    padding: 5px;
+}
+
+.q-prev-list {
+    margin-left: 20px;
+}
+
+.q-circle {
+    padding-bottom: 3px;
+}
+
+.blank {
+    all: unset;
+}
+
+.btn-edit {
+    font-weight: bold; 
+    padding: 8px 12px;
+    text-transform: uppercase;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 'background-color 0.2s ease-in-out';
 }

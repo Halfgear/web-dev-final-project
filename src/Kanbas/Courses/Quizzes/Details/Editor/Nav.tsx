@@ -1,4 +1,4 @@
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 function QuizNav() {
     const { pathname } = useLocation();
     const newPath = pathname.substring(0, pathname.lastIndexOf("/"));

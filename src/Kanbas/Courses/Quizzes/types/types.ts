@@ -1,5 +1,6 @@
 export interface Question {
     _id: string;
+    title: string;
     question_type: number;
     points: number;
     description: string;
@@ -13,7 +14,6 @@ export interface Quiz {
     title: string;
     description: string;
     quizType: string;
-    points: number;
     assignmentGroup: string;
     shuffleAnswers: boolean;
     timeLimit: number;

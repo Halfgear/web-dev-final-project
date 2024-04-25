@@ -17,7 +17,7 @@ function KanbasNavigation() {
         { label: "Studio", icon: <FaDesktop className="red-icon" /> },
         { label: "Commons", icon: <FaShareSquare className="red-icon" /> },
         { label: "Help", icon: <FaQuestionCircle className="help-icon" /> },
-        { label: "Quiz/CS1234/1354", icon: <FaQuestionCircle className="red-icon" /> }
+        //{ label: "Quiz/CS1234/1354", icon: <FaQuestionCircle className="red-icon" /> }
     ];
     const { pathname } = useLocation();
     return (
